@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.User" >
+    <id column="USER_ID" property="userId"/>
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR"/>
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="USER_NUMBER" property="userNumber" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="PLANE_NUMBER" property="planeNumber" jdbcType="VARCHAR" />
+    <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="REGION" property="region" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="FLOG" property="flog" jdbcType="VARCHAR" />
+    <result column="SALT" property="salt" jdbcType="VARCHAR" />
+    <!--<result column="JURISDICTIONL" property="jurisdictionl" jdbcType="VARCHAR" />-->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID,USER_NAME,PASSWORD,TYPE,NAME,TELEPHONE,USER_NUMBER,TITLE,POST,
+    PLANE_NUMBER,PHONE_NUMBER,DEPARTMENT,REMARKS,REGION,PROVINCE_ID,
+    CITY_ID,AREA_ID,FLOG,STATE,SALT
+  </sql>
+  
+  <select id="findByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from user
+    where  
+      USER_NAME = #{userName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectDepartmentByUser" resultType="String">
+    select 
+      DISTINCT DEPARTMENT as department
+    from user
+  </select>
+  
+  
+  <!-- 普通注册用户授权 -->
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="map" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from user
+	    <where>
+
+	    <if test="provinceId != null and provinceId != '' and provinceId != 0 and provinceId != '0'">
+			FLOG = 1
+	    	and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+	    </if>
+			<if test="type != null and type != '' or provinceId != null and provinceId != '' or cityId != null and cityId != ''  or areaId != null and areaId != ''">
+				<![CDATA[
+	                  and TYPE > #{type}
+	               ]]>
+	    </if>
+	    <if test="cityId != null and cityId != '' and cityId != 0 and cityId != '0'">
+	    	and CITY_ID = #{cityId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="areaId != null and areaId != '' and areaId != 0 and areaId != '0'">
+	    	and AREA_ID = #{areaId,jdbcType=VARCHAR}
+	    </if>
+		  <if test="type == 2 or type == '2'">
+			 OR (USER_ID IN (SELECT au.USER_ID FROM administratoranduser au WHERE ADMIN_ID = #{userId}))
+		  </if>
+		</where>
+	  GROUP BY USER_ID DESC limit #{start},#{pageSize}
+  </select>
+  <select id="selectByTypeCount" resultType="int" parameterType="map" >
+	    select 
+	    	count(1)
+	    from user
+	  <where>
+
+		  <if test="provinceId != null and provinceId != '' and provinceId != 0 and provinceId != '0'">
+			  FLOG = 1
+			  and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+		  </if>
+		  <if test="type != null and type != '' or provinceId != null and provinceId != '' or cityId != null and cityId != ''  or areaId != null and areaId != ''">
+			  <![CDATA[
+	                  and TYPE > #{type}
+	               ]]>
+		  </if>
+		  <if test="cityId != null and cityId != '' and cityId != 0 and cityId != '0'">
+			  and CITY_ID = #{cityId,jdbcType=VARCHAR}
+		  </if>
+		  <if test="areaId != null and areaId != '' and areaId != 0 and areaId != '0'">
+			  and AREA_ID = #{areaId,jdbcType=VARCHAR}
+		  </if>
+		  <if test="type == 2 or type == '2'">
+			  OR (USER_ID IN (SELECT au.USER_ID FROM administratoranduser au WHERE ADMIN_ID = #{userId}))
+		  </if>
+	  </where>
+  </select>
+  <!-- 超级管理员用户授权 -->
+  <select id="selectByTypeG" resultMap="BaseResultMap" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from user
+	    WHERE  TYPE > 1
+	    GROUP BY USER_ID DESC limit #{start},#{pageSize}
+  </select>
+  <select id="selectByTypeGCount" resultType="int">
+	    select 
+	    	count(1) 
+	    from user
+	    WHERE TYPE > 1
+
+  </select>
+  <!-- end -->
+  
+  <!-- APP注册用户授权 -->
+  <select id="selectByTypeApp" resultMap="BaseResultMap" parameterType="map" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from user
+	    where FLOG = 2
+	    <if test="provinceId != null and provinceId != ''">
+	    	and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="cityId != null and cityId != ''">
+	    	and CITY_ID = #{cityId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="areaId != null and areaId != ''">
+	    	and AREA_ID = #{areaId,jdbcType=VARCHAR}
+	    </if>
+	    GROUP BY USER_ID DESC limit #{start},#{pageSize}
+  </select>
+  
+  <select id="selectByTypeCountApp" resultType="int" parameterType="map" >
+	    select 
+	    	count(1)
+	    from user
+	    where FLOG = 2
+	    <if test="provinceId != null and provinceId != ''">
+	    	and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="cityId != null and cityId != ''">
+	    	and CITY_ID = #{cityId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="areaId != null and areaId != ''">
+	    	and AREA_ID = #{areaId,jdbcType=VARCHAR}
+	    </if>
+  </select>
+  <!-- end -->
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from user
+    where  
+      USER_ID = #{userId}
+  </select>
+  
+  <select id="selectUserCount" parameterType="map" resultType="int">
+     select 
+    	count(1)
+     from user
+     <where>
+     		<if test="usertype != null and usertype !='' and usertype != '1' and usertype != 1">
+     			TYPE > #{usertype}
+     		</if>
+     		<if test="type != null and type !=''">
+     			and TYPE = #{type}
+     		</if>
+     		<if test="keyword != null and keyword !=''">
+     			AND (TELEPHONE like CONCAT('%', #{keyword}, '%')
+     			     or NAME like CONCAT('%', #{keyword}, '%') or PLANE_NUMBER like CONCAT('%', #{keyword}, '%')
+     			     or PHONE_NUMBER like CONCAT('%', #{keyword}, '%'))
+     		</if>
+     		<if test="provinceId != null and provinceId != '' and provinceId != 0 and provinceId != '0'">
+	    		and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+	  		 </if>
+		    <if test="cityId != null and cityId != ''and cityId != 0 and cityId != '0'">
+		    	and CITY_ID = #{cityId,jdbcType=VARCHAR}
+		    </if>
+		    <if test="areaId != null and areaId != '' and areaId != 0 and areaId != '0'">
+		    	and AREA_ID = #{areaId,jdbcType=VARCHAR}
+		    </if>
+     		<if test="department != null and department != ''">
+     			and DEPARTMENT = #{department,jdbcType=VARCHAR}
+     		</if>
+		 	<if test="usertype == 2 or usertype == '2'">
+				OR (USER_ID IN (SELECT au.USER_ID FROM administratoranduser au WHERE ADMIN_ID = #{userId}))
+			</if>
+     </where>
+  </select>
+  
+  <select id="selectUser" resultMap="BaseResultMap" parameterType="map">
+     select 
+    	<include refid="Base_Column_List" />
+     from user
+     <where>
+     		<if test="usertype != null and usertype !='' and usertype != '1' and usertype != 1">
+     			TYPE > #{usertype}
+     		</if>
+		 	<if test="usertype == 1 or usertype == '1'">
+				<![CDATA[
+		 	    TYPE >= #{usertype}
+		 	    ]]>
+			</if>
+     		<if test="type != null and type !=''">
+     		 and TYPE = #{type}
+     		</if>
+     		<if test="keyword != null and keyword !=''">
+     			AND (TELEPHONE like CONCAT('%', #{keyword}, '%')
+     			     or NAME like CONCAT('%', #{keyword}, '%') or PLANE_NUMBER like CONCAT('%', #{keyword}, '%')
+     			     or PHONE_NUMBER like CONCAT('%', #{keyword}, '%'))
+     		</if>
+     		 <if test="provinceId != null and provinceId != '' and provinceId != 0 and provinceId != '0'">
+	    		and PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+	  		 </if>
+		    <if test="cityId != null and cityId != ''and cityId != 0 and cityId != '0'">
+		    	and CITY_ID = #{cityId,jdbcType=VARCHAR}
+		    </if>
+		    <if test="areaId != null and areaId != '' and areaId != 0 and areaId != '0'">
+		    	and AREA_ID = #{areaId,jdbcType=VARCHAR}
+		    </if>
+     		<if test="department != null and department != ''">
+     			and DEPARTMENT = #{department,jdbcType=VARCHAR}
+     		</if>
+			 <if test="usertype == 2 or usertype == '2'">
+				 OR (USER_ID IN (SELECT au.USER_ID FROM administratoranduser au WHERE ADMIN_ID = #{userId}))
+			 </if>
+     </where>  GROUP BY USER_ID DESC limit #{start},#{pageSize}
+  </select>
+  
+  <delete id="deletByuserId" parameterType="String">
+  		delete from user where USER_ID=#{userId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.User">
+  insert into user
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null and userName != ''" >
+        USER_NAME,
+      </if>
+      <if test="password != null and password != ''" >
+        PASSWORD,
+      </if>
+      <if test="type != null and type != ''" >
+        TYPE,
+      </if>
+      <if test="name != null and name != ''" >
+        NAME,
+      </if>
+      <if test="telephone != null and telephone != ''" >
+        TELEPHONE,
+      </if>
+      <if test="userNumber != null and userNumber != ''" >
+        USER_NUMBER,
+      </if>
+      <if test="title != null and title != ''" >
+        TITLE,
+      </if>
+      <if test="post != null and post != ''" >
+        POST,
+      </if>
+      <if test="planeNumber != null and planeNumber != ''" >
+        PLANE_NUMBER,
+      </if>
+      <if test="phoneNumber != null and phoneNumber != ''" >
+        PHONE_NUMBER,
+      </if>
+      <if test="department != null and department != ''" >
+        DEPARTMENT,
+      </if>
+      <if test="remarks != null and remarks != ''" >
+        REMARKS,
+      </if>
+      <if test="flog != null and flog != ''" >
+        FLOG,
+      </if>
+      <if test="state != null and state != ''" >
+        STATE,
+      </if>
+      <if test="salt != null and salt != ''" >
+        SALT,
+      </if>
+      <if test="jurisdictionl != null and jurisdictionl != ''" >
+			 JURISDICTIONL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="userName != null and userName != ''" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null and type != ''" >
+        #{type},
+      </if>
+      <if test="name != null and name != ''" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null and telephone != ''" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="userNumber != null and userNumber != ''" >
+        #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null and title != ''" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null and post != ''" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="planeNumber != null and planeNumber != ''" >
+        #{planeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null and phoneNumber != ''" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null and department != ''" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null and remarks != ''" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flog != null and flog != ''" >
+        #{flog,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null and state != ''" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null and salt != ''" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+		<if test="jurisdictionl != null and jurisdictionl != ''" >
+			#{jurisdictionl,jdbcType=VARCHAR},
+		</if>
+    </trim>
+  </insert>
+  
+  <update id="updateByUserId" parameterType="com.example.skkj.entity.User">
+  		update  user
+  		<set>
+	  	  <if test="userName != null and userName != ''">
+	        USER_NAME = #{userName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="password != null and password != ''">
+	        PASSWORD = #{password,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null and type != ''">
+	        TYPE = #{type},
+	      </if>
+	      <if test="name != null and name != ''">
+	        NAME = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="telephone != null and telephone != ''">
+	       TELEPHONE = #{telephone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userNumber != null and userNumber != ''">
+	        USER_NUMBER = #{userNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="title != null and title != ''">
+	       TITLE = #{title,jdbcType=VARCHAR},
+	      </if>
+	      <if test="post != null and post != ''">
+	       POST = #{post,jdbcType=VARCHAR},
+	      </if>
+	      <if test="planeNumber != null and planeNumber != ''">
+	       PLANE_NUMBER = #{planeNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="phoneNumber != null and phoneNumber != ''">
+	       PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="department != null and department != ''">
+	       DEPARTMENT = #{department,jdbcType=VARCHAR},
+	      </if>
+	      <if test="remarks != null and remarks != ''">
+	       REMARKS = #{remarks,jdbcType=VARCHAR},
+	      </if>
+	      <if test="region != null and region != ''">
+	       REGION = #{region,jdbcType=VARCHAR},
+	      </if>
+	      <if test="provinceId != null and provinceId != ''">
+	       PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cityId != null and cityId != ''">
+	       CITY_ID = #{cityId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="areaId != null and areaId != ''">
+	       AREA_ID = #{areaId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="salt != null and salt != ''">
+	       SALT = #{salt,jdbcType=VARCHAR},
+	      </if>
+		  <if test="jurisdictionl != null and jurisdictionl != ''" >
+				JURISDICTIONL = #{jurisdictionl,jdbcType=VARCHAR},
+		  </if>
+  		</set>
+  		where USER_ID = #{userId}
+  </update>
+</mapper>

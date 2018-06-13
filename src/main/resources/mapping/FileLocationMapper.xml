@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.FileLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.FileLocation" >
+    <id column="FLID" property="flId"/>
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="numBer" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FLID,FILE_NAME,YEAR,NUMBER
+  </sql>
+  
+  <insert id="insert" parameterType="java.util.List">
+  		insert into filelocation
+      (FILE_NAME,YEAR,NUMBER)
+      values
+      <foreach collection ="list" item="fileLocation" index= "index" separator =",">
+          (
+          #{fileLocation.fileName},
+          #{fileLocation.year},
+          #{fileLocation.numBer}
+          )
+      </foreach>
+  </insert>
+  
+  
+  <select id="selectByFileLocation" resultType="String" parameterType="map">
+    select 
+    	FLID as flId
+    from filelocation 
+		<where>
+			 <if test="startTime != null and startTime != ''">
+		    	<![CDATA[
+                	YEAR >= #{startTime,jdbcType=VARCHAR}
+                ]]>
+		    </if>
+		    <if test="endTime != null and endTime != ''">
+		    	<![CDATA[
+                	and #{endTime,jdbcType=VARCHAR}>=YEAR
+                ]]>
+		    </if>
+            <if test="numBer != null and numBer != ''">
+                	and NUMBER = #{numBer,jdbcType=VARCHAR}
+		    </if>
+		</where>    	
+		GROUP BY FLID ASC
+  </select>
+  
+  <select id="selectByFileLocationCount" resultType="int" parameterType="map">
+    select 
+    	count(1)
+    from filelocation
+   <where>
+       <if test="startTime != null and startTime != ''">
+           <![CDATA[
+                	YEAR >= #{startTime,jdbcType=VARCHAR}
+                ]]>
+       </if>
+       <if test="endTime != null and endTime != ''">
+           <![CDATA[
+                	and #{endTime,jdbcType=VARCHAR}>=YEAR
+                ]]>
+       </if>
+       <if test="numBer != null and numBer != ''">
+           and NUMBER = #{numBer,jdbcType=VARCHAR}
+       </if>
+		</where>    	
+  </select>
+  
+  <select id="findByflId" resultMap="BaseResultMap" parameterType="com.example.skkj.entity.FileLocation">
+	    select 
+	    	<include refid="Base_Column_List"/>
+	    from filelocation where FLID = #{flId}
+  </select>
+
+    <select id="sectByTime" resultMap="BaseResultMap" parameterType="map">
+	    select
+	    	<include refid="Base_Column_List"/>
+	    from filelocation where
+                YEAR >= #{startTime,jdbcType=VARCHAR}
+             AND
+                #{endTime,jdbcType=VARCHAR} > YEAR
+  </select>
+
+    <select id="findByflIdList" resultMap="BaseResultMap" parameterType="list">
+	    select
+        <include refid="Base_Column_List"/>
+	    from filelocation where FLID IN
+        <foreach collection="list" index="index" item="flId" open="(" separator="," close=")">
+            #{flId}
+      </foreach>
+  </select>
+    <select id="selectByTime" parameterType="String" resultType="String">
+        select
+        FILE_NAME as fileName
+        from filelocation where YEAR = #{time,jdbcType=VARCHAR}
+    </select>
+  <select id="select" resultMap="BaseResultMap">
+        select
+        FILE_NAME as fileName,YEAR as year
+        from filelocation
+  </select>
+
+</mapper>

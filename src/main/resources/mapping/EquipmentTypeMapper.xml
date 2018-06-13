@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.EquipmentTypeMapper" >
+
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.EquipmentType" >
+    <id column="EPT_ID" property="eptId"/>
+    <result column="DEVICE_TYPE" property="deviceType" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="PROTOCOL_TYPE" property="protocolType" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_NAME" property="manufacturerName" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_ID" property="manufacturerId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EPT_ID,DEVICE_TYPE,MODEL,PROTOCOL_TYPE,MANUFACTURER_NAME,MANUFACTURER_ID
+  </sql>
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.EquipmentType">
+  		insert into equipmenttype
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceType != null and deviceType != ''" >
+          DEVICE_TYPE,
+      </if>
+      <if test="model != null and model != ''" >
+          MODEL,
+      </if>
+      <if test="protocolType != null and protocolType != ''" >
+          PROTOCOL_TYPE,
+      </if>
+      <if test="manufacturerName != null and manufacturerName != ''" >
+          MANUFACTURER_NAME,
+      </if>
+      <if test="manufacturerId != null and manufacturerId != ''" >
+          MANUFACTURER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceType != null and deviceType != ''" >
+        	#{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null and model != ''" >
+        	#{model,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolType != null and protocolType != ''" >
+        	#{protocolType,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerName != null and manufacturerName != ''" >
+        	#{manufacturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null and manufacturerId != ''" >
+        	#{manufacturerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByeqtId" parameterType="com.example.skkj.entity.EquipmentType">
+  		update equipmenttype
+  		<set>
+		  	  <if test="deviceType != null and deviceType != ''" >
+                  DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="model != null and model != ''" >
+                  MODEL = #{model,jdbcType=VARCHAR},
+		      </if>
+		      <if test="protocolType != null and protocolType != ''" >
+                  PROTOCOL_TYPE = #{protocolType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="manufacturerName != null and manufacturerName != ''" >
+                  MANUFACTURER_NAME = #{manufacturerName,jdbcType=VARCHAR},
+		      </if>
+     		 <if test="manufacturerId != null and manufacturerId != ''" >
+                 MANUFACTURER_ID = #{manufacturerId,jdbcType=VARCHAR},
+     		 </if>
+  		</set>
+  		where EPT_ID = #{eptId}
+  </update>
+  
+
+  <select id="selectByEqtId" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from equipmenttype
+    where
+      EPT_ID = #{eptId}
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="map">
+    select 
+    	<include refid="Base_Column_List" />
+    from equipmenttype
+    limit #{start},#{pageSize}
+  </select>
+  
+  <select id="selectCount" resultType="int" parameterType="map">
+    select 
+    	count(1)
+    from equipmenttype
+  </select>
+  
+ <select id="finde" resultMap="BaseResultMap">
+     select
+     <include refid="Base_Column_List" />
+     from equipmenttype
+ </select>
+
+	<delete id="delete" parameterType="String">
+		delete from equipmenttype where EPT_ID = #{eptId,jdbcType=VARCHAR}
+	</delete>
+
+    <select id="findBydeviceType" resultType="String" parameterType="String">
+        SELECT EPT_ID FROM equipmenttype WHERE DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

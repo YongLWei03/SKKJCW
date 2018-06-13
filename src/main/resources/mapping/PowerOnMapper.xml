@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.PowerOnMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.PowerOn" >
+    <id column="POWID" property="powId"/>
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DEVICEID" property="deviceId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    POWID,TIME,NAME,DEVICEID
+  </sql>
+
+  <insert id="insert" parameterType="com.example.skkj.entity.PowerOn">
+    insert into poweron
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="time != null and time != ''" >
+        TIME,
+      </if>
+
+      <if test="name != null and name != ''" >
+        NAME,
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        DEVICEID,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="time != null and time != ''" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name != ''" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="map">
+    select 
+    	<include refid="Base_Column_List" />
+    from poweron WHERE DEVICEID = #{deviceNumber} limit #{start},#{pageSize}
+  </select>
+  
+  <select id="selectCount" resultType="int" parameterType="map">
+    select 
+    	COUNT(1)
+    from poweron WHERE DEVICEID = #{deviceNumber}
+  </select>
+
+  
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.RegionMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Region" >
+    <id column="REGION_ID" property="regionId"/>
+    <result column="REGION_NAME" property="regionName" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    REGION_ID,REGION_NAME,PARENT_ID
+  </sql>
+  
+  <select id="findeByRegionIdSS" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from region
+    where  
+      PARENT_ID = 1
+  </select>
+  
+  <select id="findeByRegionId" resultType="String" parameterType="String">
+    select 
+    	REGION_NAME as regionName
+    from region
+    where  
+      REGION_ID = #{regionId}
+  </select>
+  
+  <select id="findeByRegionIdS" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    	<include refid="Base_Column_List" />
+    from region
+    where  
+      PARENT_ID = #{regionId}
+  </select>
+  
+  <select id="findeByRegionIdX" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    	<include refid="Base_Column_List" />
+    from region
+    where  
+      PARENT_ID = #{regionId}
+  </select>
+  
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.AcpEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.AcpEquipment" >
+    <id column="ACPE_ID" property="acpeId"/>
+    <result column="BOARDSTATUS" property="boardStatus" jdbcType="VARCHAR" />
+    <result column="HARVESTERSTATUS" property="harvesterStatus" jdbcType="VARCHAR" />
+    <result column="DEVICENUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="INFORMATIONNUMBER" property="informationNumber" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ACPE_ID,BOARDSTATUS,HARVESTERSTATUS,DEVICENUMBER,INFORMATIONNUMBER,TIME
+  </sql>
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.AcpEquipment">
+  insert into acpequipment
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="boardStatus != null and boardStatus != ''" >
+          BOARDSTATUS,
+      </if>
+
+      <if test="harvesterStatus != null and harvesterStatus != ''" >
+          HARVESTERSTATUS,
+      </if>
+         <if test="deviceNumber != null and deviceNumber != ''" >
+             DEVICENUMBER,
+      </if>
+         <if test="informationNumber != null and informationNumber != ''" >
+             INFORMATIONNUMBER,
+      </if>
+         <if test="time != null and time != ''" >
+             TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="boardStatus != null and boardStatus != ''" >
+       	 #{boardStatus,jdbcType=VARCHAR},
+      </if>
+     
+      <if test="harvesterStatus != null and harvesterStatus != ''" >
+       	 #{harvesterStatus,jdbcType=VARCHAR},
+      </if>
+        <if test="deviceNumber != null and deviceNumber != ''" >
+       	 #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+        <if test="informationNumber != null and informationNumber != ''" >
+       	 #{informationNumber,jdbcType=VARCHAR},
+      </if>
+        <if test="time != null and time != ''" >
+       	 #{time,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <update id="update" parameterType="com.example.skkj.entity.AcpEquipment">
+        update acpequipment
+        <set>
+            <if test="boardStatus != null and boardStatus != ''">
+                BOARDSTATUS = #{boardStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="harvesterStatus != null and harvesterStatus != ''">
+                HARVESTERSTATUS = #{harvesterStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByDeverId" resultMap="BaseResultMap" parameterType="map">
+          SELECT <include refid="Base_Column_List"/> FROM acpequipment WHERE DEVICENUMBER = #{deviceNumber}
+        GROUP BY TIME DESC limit #{start},#{pageSize}
+    </select>
+
+    <select id="selectByDeverIdCount" resultType="int" parameterType="map">
+          SELECT count(1) FROM acpequipment WHERE DEVICENUMBER = #{deviceNumber}
+    </select>
+  
+</mapper>

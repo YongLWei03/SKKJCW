@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.AdjustMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Adjust" >
+    <id column="ADID" property="adId"/>
+    <result column="ID" property="ID" jdbcType="INTEGER" />
+    <result column="MAXFRE" property="maxFre" jdbcType="REAL" />
+    <result column="MINFRE" property="minFre" jdbcType="REAL" />
+    <result column="MEANFRE" property="meanFre" jdbcType="REAL" />
+    <result column="MAXPOWER" property="maxPower" jdbcType="INTEGER" />
+    <result column="MINPOWER" property="minPower" jdbcType="INTEGER" />
+    <result column="MEANPOWER" property="meanPower" jdbcType="INTEGER" />
+    <result column="VALIDCOUNT" property="validCount" jdbcType="INTEGER" />
+    <result column="INVALIDCOUNT" property="InvalidCount" jdbcType="INTEGER" />
+    <result column="ISFLAG" property="IsFlag" jdbcType="VARCHAR" />
+    <result column="ISADJUST" property="IsAdjust" jdbcType="VARCHAR" />
+    <result column="COMMANDID" property="commandId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ADID,ID,MAXFRE,MINFRE,MEANFRE,MAXPOWER,MINPOWER,MEANPOWER,VALIDCOUNT,INVALIDCOUNT,ISFLAG,ISADJUST,COMMANDID
+  </sql>
+    <insert id="isnertAll" parameterType="java.util.List">
+        insert into adjust
+        (ID,MAXFRE,MINFRE,MEANFRE,MAXPOWER,MINPOWER,MEANPOWER,VALIDCOUNT,INVALIDCOUNT,ISFLAG,ISADJUST,COMMANDID)
+        values
+        <foreach collection ="list" item="adjust" index= "index" separator =",">
+            (
+            #{adjust.ID},
+            #{adjust.maxFre},
+            #{adjust.minFre},
+            #{adjust.meanFre},
+            #{adjust.maxPower},
+            #{adjust.minPower},
+            #{adjust.meanPower},
+            #{adjust.validCount},
+            #{adjust.InvalidCount},
+            #{adjust.IsFlag},
+            #{adjust.IsAdjust},
+            #{adjust.commandId}
+            )
+        </foreach>
+
+    </insert>
+
+    <select id="selectByCommandId" resultMap="BaseResultMap" parameterType="String">
+        SELECT se.SENSOR_NAME as sensorName,aj.ADID as adId,aj.MAXFRE as maxFre,aj.MINFRE as minFre,aj.MEANFRE as meanFre,aj.MAXPOWER as maxPower,aj.MINPOWER
+        as minPower, aj.MEANPOWER as meanPower,aj.VALIDCOUNT as validCount,aj.INVALIDCOUNT as InvalidCount,aj.ISFLAG as IsFlag,
+        aj.ISADJUST as IsAdjust, aj.COMMANDID as commandId FROM adjust aj,sensor se
+        WHERE se.SENSOR_NUM = aj.ID and aj.COMMANDID =#{commandId};
+    </select>
+
+    <delete id="delet">
+        DELETE FROM adjust
+    </delete>
+
+</mapper>

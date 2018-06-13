@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.TemperatureMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Temperature" >
+    <id column="TEM_ID" property="temId"/>
+    <result column="INA" property="inA" jdbcType="VARCHAR" />
+    <result column="INB" property="inB" jdbcType="VARCHAR" />
+    <result column="INC" property="inC" jdbcType="VARCHAR" />
+    <result column="OUTA" property="outA" jdbcType="VARCHAR" />
+    <result column="OUTB" property="outB" jdbcType="VARCHAR" />
+    <result column="OUTC" property="outC" jdbcType="VARCHAR" />
+    <result column="CONTACTA" property="contactA" jdbcType="VARCHAR" />
+    <result column="CONTACTB" property="contactB" jdbcType="VARCHAR" />
+    <result column="CONTACTC" property="contactC" jdbcType="VARCHAR" />
+    <result column="CONTACTD" property="contactD" jdbcType="VARCHAR" />
+    <result column="CONTACTE" property="contactE" jdbcType="VARCHAR" />
+    <result column="CONTACTF" property="contactF" jdbcType="VARCHAR" />
+	  <result column="INAXH" property="inAxh" jdbcType="VARCHAR" />
+    <result column="INBXH" property="inBxh" jdbcType="VARCHAR" />
+    <result column="INCXH" property="inCxh" jdbcType="VARCHAR" />
+    <result column="OUTAXH" property="outAxh" jdbcType="VARCHAR" />
+    <result column="OUTBXH" property="outBxh" jdbcType="VARCHAR" />
+    <result column="OUTCXH" property="outCxh" jdbcType="VARCHAR" />
+    <result column="CONTACTAXH" property="contactAxh" jdbcType="VARCHAR" />
+    <result column="CONTACTBXH" property="contactBxh" jdbcType="VARCHAR" />
+    <result column="CONTACTCXH" property="contactCxh" jdbcType="VARCHAR" />
+    <result column="CONTACTDXH" property="contactDxh" jdbcType="VARCHAR" />
+    <result column="CONTACTEXH" property="contactExh" jdbcType="VARCHAR" />
+    <result column="CONTACTFXH" property="contactFxh" jdbcType="VARCHAR" />
+    <result column="ANTSIGNAL" property="antSignal" jdbcType="VARCHAR" />
+    <result column="DEVICE_NUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="DEVICENUMBERXM" property="deviceNumberXm" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TEM_ID,INA,INB,INC,OUTA,OUTB,OUTC,CONTACTA,CONTACTB,CONTACTC,CONTACTD,CONTACTE,CONTACTF,INAXH,INBXH,
+    INCXH,OUTAXH,OUTBXH,OUTCXH,CONTACTAXH,CONTACTBXH,CONTACTCXH,CONTACTDXH,CONTACTEXH,CONTACTFXH,ANTSIGNAL,DEVICE_NUMBER,TIME,DEVICENUMBERXM,TYPE
+  </sql>
+  <select id="selectBydeviceNumber" resultType="int" parameterType="String">
+    select 
+    	count(1)
+    from temperature
+    where  
+      DEVICENUMBERXM = #{deviceNumberXm,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteBydeviceNumber" parameterType="String">
+  		delete from temperature where  #{deviceNumber,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteBydeviceNumberXm" parameterType="String">
+  		delete from temperature where  #{deviceNumberXm,jdbcType=VARCHAR}
+  </delete>
+
+		<insert id ="insert" parameterType="java.util.List" >
+	             insert into temperature
+	           	 (INA,INB,INC,OUTA,OUTC,OUTB,DEVICE_NUMBER,TIME,DEVICENUMBERXM,TYPE)
+	             values
+	            <foreach collection ="list" item="temperature" index= "index" separator =",">
+	            (
+	                 #{temperature.inA},
+	                 #{temperature.inB},
+	                 #{temperature.inC},
+	                 #{temperature.outA},
+	                 #{temperature.outC},
+	                 #{temperature.outB},
+	                 #{temperature.deviceNumber},
+	                 #{temperature.time},
+	                 #{temperature.deviceNumberXm},
+	                 #{temperature.type},
+                 )
+	            </foreach>
+	</insert>
+		<insert id ="insertOne" parameterType="com.example.skkj.entity.Temperature" >
+	             insert into temperature
+	           	 (INA,INB,INC,OUTA,OUTC,OUTB,DEVICE_NUMBER,TIME,DEVICENUMBERXM,TYPE)
+	             values
+	             (
+	                 #{inA},
+	                 #{inB},
+	                 #{inC},
+	                 #{outA},
+	                 #{outC},
+	                 #{outB},
+	                 #{deviceNumber},
+	                 #{time},
+	                 #{deviceNumberXm},
+	                 #{type}
+                 )
+	</insert>
+
+	<insert id="insertTemu" parameterType="com.example.skkj.entity.Temperature">
+		insert into temperature
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="inA != null and inA != ''" >
+				INA,
+			</if>
+			<if test="inB != null and inB != ''" >
+				INB,
+			</if>
+			<if test="inC != null and inC != ''" >
+				INC,
+			</if>
+			<if test="outA != null and outA != ''" >
+				OUTA,
+			</if>
+			<if test="outB != null and outB != ''" >
+				OUTB,
+			</if>
+			<if test="outC != null and outC != ''" >
+				OUTC,
+			</if>
+			<if test="contactA != null and contactA != ''" >
+				CONTACTA,
+			</if>
+			<if test="contactB != null and contactB != ''" >
+				CONTACTB,
+			</if>
+			<if test="contactC != null and contactC != ''" >
+				CONTACTC,
+			</if>
+			<if test="contactD != null and contactD != ''" >
+				CONTACTD,
+			</if>
+			<if test="contactE != null and contactE != ''" >
+				CONTACTE,
+			</if>
+			<if test="contactF != null and contactF != ''" >
+				CONTACTF,
+			</if>
+			<if test="inAxh != null and inAxh != ''" >
+				INAXH,
+			</if>
+			<if test="inBxh != null and inBxh != ''" >
+				INBXH,
+			</if>
+			<if test="inCxh != null and inCxh != ''" >
+				INCXH,
+			</if>
+			<if test="outAxh != null and outAxh != ''" >
+				OUTAXH,
+			</if>
+			<if test="outBxh != null and outBxh != ''" >
+				OUTBXH,
+			</if>
+			<if test="outCxh != null and outCxh != ''" >
+				OUTCXH,
+			</if>
+			<if test="contactAxh != null and contactAxh != ''" >
+				CONTACTAXH,
+			</if>
+			<if test="contactBxh != null and contactBxh != ''" >
+				CONTACTBXH,
+			</if>
+			<if test="contactCxh != null and contactCxh != ''" >
+				CONTACTCXH,
+			</if>
+			<if test="contactDxh != null and contactDxh != ''" >
+				CONTACTDXH,
+			</if>
+			<if test="contactExh != null and contactExh != ''" >
+				CONTACTEXH,
+			</if>
+			<if test="contactFxh != null and contactFxh != ''" >
+				CONTACTFXH,
+			</if>
+			<if test="antSignal != null and antSignal != ''" >
+				ANTSIGNAL,
+			</if>
+			<if test="deviceNumber != null and deviceNumber != ''" >
+				DEVICE_NUMBER,
+			</if>
+			<if test="time != null and time != ''" >
+				TIME,
+			</if>
+			<if test="deviceNumberXm != null and deviceNumberXm != ''" >
+				DEVICENUMBERXM,
+			</if>
+			<if test="type != null and type != ''" >
+				TYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="inA != null and inA != ''" >
+				#{inA,jdbcType=VARCHAR},
+			</if>
+			<if test="inB != null and inB != ''" >
+				#{inB,jdbcType=VARCHAR},
+			</if>
+			<if test="inC != null and inC != ''" >
+				#{inC,jdbcType=VARCHAR},
+			</if>
+			<if test="outA != null and outA != ''" >
+				#{outA,jdbcType=VARCHAR},
+			</if>
+			<if test="outB != null and outB != ''" >
+				#{outB,jdbcType=VARCHAR},
+			</if>
+			<if test="outC != null and outC != ''" >
+				#{outC,jdbcType=VARCHAR},
+			</if>
+			<if test="contactA != null and contactA != ''" >
+				#{contactA,jdbcType=VARCHAR},
+			</if>
+			<if test="contactB != null and contactB != ''" >
+				#{contactB,jdbcType=VARCHAR},
+			</if>
+			<if test="contactC != null and contactC != ''" >
+				#{contactC,jdbcType=VARCHAR},
+			</if>
+			<if test="contactD != null and contactD != ''" >
+				#{contactD,jdbcType=VARCHAR},
+			</if>
+			<if test="contactE != null and contactE != ''" >
+				#{contactE,jdbcType=VARCHAR},
+			</if>
+			<if test="contactF != null and contactF != ''" >
+				#{contactF,jdbcType=VARCHAR},
+			</if>
+			<if test="inAxh != null and inAxh != ''" >
+				#{inAxh,jdbcType=VARCHAR},
+			</if>
+			<if test="inBxh != null and inBxh != ''" >
+				#{inBxh,jdbcType=VARCHAR},
+			</if>
+			<if test="inCxh != null and inCxh != ''" >
+				#{inCxh,jdbcType=VARCHAR},
+			</if>
+			<if test="outAxh != null and outAxh != ''" >
+				#{outAxh,jdbcType=VARCHAR},
+			</if>
+			<if test="outBxh != null and outBxh != ''" >
+				#{outBxh,jdbcType=VARCHAR},
+			</if>
+			<if test="outCxh != null and outCxh != ''" >
+				#{outCxh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactAxh != null and contactAxh != ''" >
+				#{contactAxh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactBxh != null and contactBxh != ''" >
+				#{contactBxh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactCxh != null and contactCxh != ''" >
+				#{contactCxh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactDxh != null and contactDxh != ''" >
+				#{contactDxh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactExh != null and contactExh != ''" >
+				#{contactExh,jdbcType=VARCHAR},
+			</if>
+			<if test="contactFxh != null and contactFxh != ''" >
+				#{contactFxh,jdbcType=VARCHAR},
+			</if>
+			<if test="antSignal != null and antSignal != ''" >
+				#{antSignal,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceNumber != null and deviceNumber != ''" >
+				#{deviceNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="time != null and time != ''" >
+				#{time,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceNumberXm != null and deviceNumberXm != ''" >
+				#{deviceNumberXm,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null and type != ''" >
+				#{type,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateTemu" parameterType="com.example.skkj.entity.Temperature">
+			UPDATE temperature
+			<set>
+				<if test="inA != null and inA != ''" >
+					INA=#{inA,jdbcType=VARCHAR},
+				</if>
+				<if test="inB != null and inB != ''" >
+					INB=#{inB,jdbcType=VARCHAR},
+				</if>
+				<if test="inC != null and inC != ''" >
+					INC=#{inC,jdbcType=VARCHAR},
+				</if>
+				<if test="outA != null and outA != ''" >
+					OUTA=#{outA,jdbcType=VARCHAR},
+				</if>
+				<if test="outB != null and outB != ''" >
+					OUTB=#{outB,jdbcType=VARCHAR},
+				</if>
+				<if test="outC != null and outC != ''" >
+					OUTC=#{outC,jdbcType=VARCHAR},
+				</if>
+				<if test="contactA != null and contactA != ''" >
+					CONTACTA=#{contactA,jdbcType=VARCHAR},
+				</if>
+				<if test="contactB != null and contactB != ''" >
+					CONTACTB=#{contactB,jdbcType=VARCHAR},
+				</if>
+				<if test="contactC != null and contactC != ''" >
+					CONTACTC=#{contactC,jdbcType=VARCHAR},
+				</if>
+				<if test="contactD != null and contactD != ''" >
+					CONTACTD=#{contactD,JDBCTYPE=VARCHAR},
+				</if>
+				<if test="contactE != null and contactE != ''" >
+					CONTACTE=#{contactE,jdbcType=VARCHAR},
+				</if>
+				<if test="contactF != null and contactF != ''" >
+					CONTACTF = #{contactF,jdbcType=VARCHAR},
+				</if>
+				<if test="inAxh != null and inAxh != ''" >
+					INAXH=#{inAxh,jdbcType=VARCHAR},
+				</if>
+				<if test="inBxh != null and inBxh != ''" >
+					INBXH=#{inBxh,jdbcType=VARCHAR},
+				</if>
+				<if test="inCxh != null and inCxh != ''" >
+					INCXH=#{inCxh,jdbcType=VARCHAR},
+				</if>
+				<if test="outAxh != null and outAxh != ''" >
+					OUTAXH=#{outAxh,jdbcType=VARCHAR},
+				</if>
+				<if test="outBxh != null and outBxh != ''" >
+					OUTBXH=#{outBxh,jdbcType=VARCHAR},
+				</if>
+				<if test="outCxh != null and outCxh != ''" >
+					OUTCXH=#{outCxh,jdbcType=VARCHAR},
+				</if>
+				<if test="contactAxh != null and contactAxh != ''" >
+					CONTACTAXH=#{contactAxh,jdbcType=VARCHAR},
+				</if>
+				<if test="contactBxh != null and contactBxh != ''" >
+					CONTACTBXH=#{contactBxh,jdbcType=VARCHAR},
+				</if>
+				<if test="contactCxh != null and contactCxh != ''" >
+					CONTACTCXH=#{contactCxh,jdbcType=VARCHAR},
+				</if>
+				<if test="contactDxh != null and contactDxh != ''" >
+					CONTACTDXH=#{contactDxh,JDBCTYPE=VARCHAR},
+				</if>
+				<if test="contactExh != null and contactExh != ''" >
+					CONTACTEXH=#{contactExh,jdbcType=VARCHAR},
+				</if>
+				<if test="contactF != null and contactF != ''" >
+					CONTACTFXH = #{contactFxh,jdbcType=VARCHAR},
+				</if>
+				<if test="antSignal != null and antSignal != ''" >
+					ANTSIGNAL = #{antSignal,jdbcType=VARCHAR},
+				</if>
+				<if test="time != null and time != ''" >
+					TIME = #{time,jdbcType=VARCHAR},
+				</if>
+				<if test="deviceNumberXm != null and deviceNumberXm != ''" >
+					DEVICENUMBERXM = #{deviceNumberXm,jdbcType=VARCHAR},
+				</if>
+				<if test="type != null and type != ''" >
+					TYPE = #{type,jdbcType=VARCHAR},
+				</if>
+			</set>
+		WHERE DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</update>
+  
+    <select id="selectByTime" parameterType="map" resultMap="BaseResultMap">
+    		select
+    	  		<include refid="Base_Column_List"/>
+    	    from temperature where  DEVICE_NUMBER = #{deviceNumber}
+	    	 <if test="startTime != null and startTime != ''">
+	    	  		 <![CDATA[
+	                  and TIME >= #{startTime}
+	                 ]]>
+	    	 </if>
+	    	 <if test="endTime != null and endTime != ''">
+	    	  		 <![CDATA[
+	                  and TIME <= #{endTime}
+	                 ]]>
+	    	 </if>
+<!-- 	    	 GROUP BY TIME ASC -->
+    </select>
+    
+    <select id="selectByDinshiTime" parameterType="String" resultMap="BaseResultMap">
+    	select
+    	   <include refid="Base_Column_List"/>
+    	from temperature where TIME &lt; #{time}
+    </select>
+    
+    <delete id="deletByTime" parameterType="String">
+    		delete from temperature where TIME &lt; #{time}
+    </delete>
+
+	<select id="selectByTemu" parameterType="String" resultMap="BaseResultMap">
+			SELECT <include refid="Base_Column_List"/> FROM temperature where DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</select>
+  
+</mapper>

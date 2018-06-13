@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.EquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Equipment" >
+    <id column="EQ_ID" property="eqId"/>
+    <result column="DEVICE_NUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="HEADOFEQUIP_MENT" property="headOfEquipment" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="EQUIPMENTXI" property="equipmentxi" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_ID" property="substationId" jdbcType="VARCHAR" />
+    <result column="DEVICE_NAME" property="deviceName" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_NAME" property="substationName" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="EPT_ID" property="eptId" jdbcType="VARCHAR" />
+      <result column="NUMBER_DEVICES" property="numberDevices" jdbcType="VARCHAR" />
+      <result column="ADD_RESS" property="addRess" jdbcType="VARCHAR" />
+      <result column="DEVICESBID" property="deviceSbId" jdbcType="VARCHAR" />
+      <result column="DEVICE_TYPE" property="deviceType" jdbcType="VARCHAR" />
+      <result column="IS_ROOT" property="isRoot" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EQ_ID,DEVICE_NUMBER,HEADOFEQUIP_MENT,PHONE,EQUIPMENTXI,SUBSTATION_ID,DEVICE_NAME,CODE,EPT_ID,NUMBER_DEVICES,ADD_RESS,DEVICESBID,DEVICE_TYPE,IS_ROOT
+  </sql>
+
+
+    <insert id="insertAll" parameterType="java.util.List">
+        insert into equipment
+        (DEVICE_NUMBER,HEADOFEQUIP_MENT,PHONE,EQUIPMENTXI,
+         DEVICE_NAME,CODE,EPT_ID,NUMBER_DEVICES,ADD_RESS,DEVICESBID,DEVICE_TYPE,IS_ROOT)
+        values
+        <foreach collection ="list" item="equipmentList" index= "index" separator =",">
+            (
+            #{equipmentList.deviceNumber},
+            #{equipmentList.headOfEquipment},
+            #{equipmentList.phone},
+            #{equipmentList.equipmentxi},
+            #{equipmentList.deviceName},
+            #{equipmentList.code},
+            #{equipmentList.eptId},
+            #{equipmentList.numberDevices},
+            #{equipmentList.addRess},
+            #{equipmentList.deviceSbId},
+            #{equipmentList.deviceType},
+            #{equipmentList.isRoot}
+            )
+        </foreach>
+    </insert>
+  
+  <insert id="insetEquipment" parameterType="com.example.skkj.entity.Equipment">
+  		insert into equipment
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceNumber != null and deviceNumber != ''" >
+        	DEVICE_NUMBER,
+      </if>
+      <if test="headOfEquipment != null and headOfEquipment != ''" >
+        	HEADOFEQUIP_MENT,
+      </if>
+      <if test="phone != null and phone != ''" >
+        	PHONE,
+      </if>
+      <if test="equipmentxi != null and equipmentxi != ''" >
+        	EQUIPMENTXI,
+      </if>
+      <if test="substationId != null and substationId != ''" >
+        	SUBSTATION_ID,
+      </if>
+      <if test="deviceName != null and deviceName != ''" >
+          DEVICE_NAME,
+      </if>
+        <if test="code != null and code != ''" >
+        CODE,
+      </if>
+        <if test="eptId != null and eptId != ''" >
+            EPT_ID,
+      </if>
+        <if test="numberDevices != null and numberDevices != ''" >
+            NUMBER_DEVICES,
+        </if>
+        <if test="addRess != null and addRess != ''" >
+            ADD_RESS,
+        </if>
+
+        <if test="deviceSbId != null and deviceSbId != ''" >
+            DEVICESBID,
+        </if>
+        <if test="deviceType != null and deviceType != ''" >
+            DEVICE_TYPE,
+        </if>
+        <if test="isRoot != null and isRoot != ''" >
+            IS_ROOT,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceNumber != null and deviceNumber != ''" >
+        	#{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="headOfEquipment != null and headOfEquipment != ''" >
+        	#{headOfEquipment,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null and phone != ''" >
+        	#{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentxi != null and equipmentxi != ''" >
+        	#{equipmentxi,jdbcType=VARCHAR},
+      </if>
+      <if test="substationId != null and substationId != ''" >
+        	#{substationId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null and deviceName != ''" >
+        	#{deviceName,jdbcType=VARCHAR},
+      </if>
+        <if test="code != null and code != ''" >
+        	#{code,jdbcType=VARCHAR},
+      </if>
+        <if test="eptId != null and eptId != ''" >
+        	#{eptId,jdbcType=VARCHAR},
+      </if>
+        <if test="numberDevices != null and numberDevices != ''" >
+        	#{numberDevices,jdbcType=VARCHAR},
+      </if>
+        <if test="addRess != null and addRess != ''" >
+        	#{addRess,jdbcType=VARCHAR},
+      </if>
+
+        <if test="deviceSbId != null and deviceSbId != ''" >
+        	#{deviceSbId,jdbcType=VARCHAR},
+      </if>
+        <if test="deviceType != null and deviceType != ''" >
+        	#{deviceType,jdbcType=VARCHAR},
+      </if>
+        <if test="isRoot != null and isRoot != ''" >
+        	#{isRoot,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByeqId" parameterType="com.example.skkj.entity.Equipment">
+  		update equipment 
+  		<set>
+		  	  <if test="deviceNumber != null and deviceNumber != ''" >
+		        	DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR},
+		      </if>
+		      <if test="headOfEquipment != null and headOfEquipment != ''" >
+		        	HEADOFEQUIP_MENT = #{headOfEquipment,jdbcType=VARCHAR},
+		      </if>
+		      <if test="phone != null and phone != ''" >
+		        	PHONE = #{phone,jdbcType=VARCHAR},
+		      </if>
+		      <if test="equipmentxi != null and equipmentxi != ''" >
+		        	EQUIPMENTXI = #{equipmentxi,jdbcType=VARCHAR},
+		      </if>
+            <if test="substationId != null and substationId != ''" >
+                SUBSTATION_ID = #{substationId,jdbcType=VARCHAR},
+		      </if>
+            <if test="deviceName != null and deviceName != ''" >
+                DEVICE_NAME =  #{deviceName,jdbcType=VARCHAR},
+            </if>
+             <if test="code != null and code != ''" >
+                 CODE = #{code,jdbcType=VARCHAR},
+     		 </if>
+            <if test="eptId != null and eptId != ''" >
+                EPT_ID = #{eptId,jdbcType=VARCHAR},
+     		 </if>
+            <if test="numberDevices != null and numberDevices != ''" >
+                NUMBER_DEVICES = #{numberDevices,jdbcType=VARCHAR},
+     		 </if>
+            <if test="addRess != null and addRess != ''" >
+                ADD_RESS = #{addRess,jdbcType=VARCHAR},
+     		 </if>
+
+            <if test="deviceSbId != null and deviceSbId != ''" >
+                DEVICESBID =  #{deviceSbId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null and deviceType != ''" >
+                DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="isRoot != null and isRoot != ''" >
+                IS_ROOT = #{isRoot,jdbcType=VARCHAR},
+            </if>
+  		</set>
+  		where EQ_ID = #{eqId}
+  </update>
+
+    <update id="updateByDeviceNumber" parameterType="com.example.skkj.entity.Equipment">
+  		update equipment
+        <set>
+            <if test="headOfEquipment != null and headOfEquipment != ''" >
+                HEADOFEQUIP_MENT = #{headOfEquipment,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''" >
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="equipmentxi != null and equipmentxi != ''" >
+                EQUIPMENTXI = #{equipmentxi,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceName != null and deviceName != ''" >
+                DEVICE_NAME =  #{deviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null and code != ''" >
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="eptId != null and eptId != ''" >
+                EPT_ID = #{eptId,jdbcType=VARCHAR},
+            </if>
+            <if test="numberDevices != null and numberDevices != ''" >
+                NUMBER_DEVICES = #{numberDevices,jdbcType=VARCHAR},
+            </if>
+            <if test="addRess != null and addRess != ''" >
+                ADD_RESS = #{addRess,jdbcType=VARCHAR},
+            </if>
+            <if test="substationId != null and substationId != ''" >
+                SUBSTATION_ID = #{substationId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="deviceSbId != null and deviceSbId != ''" >
+                DEVICESBID =  #{deviceSbId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null and deviceType != ''" >
+                DEVICE_TYPE = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="isRoot != null and isRoot != ''" >
+                IS_ROOT = #{isRoot,jdbcType=VARCHAR},
+            </if>
+        </set>
+  		where DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findByeqId" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List" />
+    from equipment
+    where  
+      EQ_ID = #{eqId}
+  </select>
+  
+  <select id="selectEquipment" resultMap="BaseResultMap" parameterType="map">
+    select 
+    	<include refid="Base_Column_List" />
+    from equipment WHERE
+      SUBSTATION_ID = #{substationId}
+          <if test="code != null and code != ''">
+              AND   CODE=#{code},
+          </if>
+    limit #{start},#{pageSize}
+  </select>
+    <select id="selectEquipmentcc" resultMap="BaseResultMap" parameterType="map">
+    select
+    	<include refid="Base_Column_List" />
+    from equipment
+      WHERE
+        SUBSTATION_ID = #{substationId}
+        <if test="code != null and code != ''">
+            AND   CODE=#{code},
+        </if>
+  </select>
+  
+  <select id="selectEquipmentCount" resultType="int" parameterType="map">
+    select 
+    	count(1)
+    from equipment where SUBSTATION_ID = #{substationId}
+  </select>
+  
+ 
+
+	<delete id="deleteBysubID" parameterType="String">
+		delete from equipment where SUBSTATION_ID = #{substationId,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="selectByEquipmentxi" parameterType="com.example.skkj.entity.Equipment" resultType="com.example.skkj.entity.Equipment">
+		select et.EQUIPMENTXI as equipmentxi,et.NUMBER_DEVICES as numberDevices,et.SUBSTATION_ID as substationId,et.EQ_ID as eqId,sb.SUBSTATION_NAME as substationName,et.PHONE as phone from equipment et join substation sb on et.SUBSTATION_ID=sb.SUBSTATION_ID where DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</select>
+
+    <!--<select id="selectByEquipmentxi" parameterType="com.example.skkj.entity.Equipment" resultType="com.example.skkj.entity.Equipment">-->
+		<!--select et.EQUIPMENTXI as equipmentxi,et.NUMBER_DEVICES as numberDevices,et.SUBSTATION_ID as substationId,et.EQ_ID as eqId,sb.SUBSTATION_NAME as substationName from equipment et join substation sb on et.SUBSTATION_ID=sb.SUBSTATION_ID where DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR}-->
+	<!--</select>-->
+	
+  <delete id="deletByeqId">
+     delete from equipment where EQ_ID = #{eqId}
+  </delete>
+  <select id="selectBysubID" parameterType="String" resultType="int">
+  		select count(1) from equipment where SUBSTATION_ID = #{substationId}
+  </select>
+    <delete id="deletByDeviceNumber">
+        delete from equipment where DEVICE_NUMBER = #{deviceNumber}
+    </delete>
+
+    <select id="selectByDeviceNumber" resultType="int" parameterType="String">
+        SELECT COUNT(1) FROM  equipment WHERE DEVICE_NUMBER = #{deviceNumber}
+    </select>
+
+    <update id="updateByAddRess" parameterType="String">
+        UPDATE equipment SET SUBSTATION_ID = #{substationId} WHERE ADD_RESS = #{addRess}
+    </update>
+
+    <select id="selectByAddRess" resultType="int" parameterType="String">
+        SELECT COUNT(1) FROM equipment WHERE  ADD_RESS = #{addRess}
+    </select>
+
+    <select id="findByDeviceNumber" parameterType="String" resultType="String">
+        SELECT DEVICE_NUMBER FROM equipment WHERE SUBSTATION_ID = #{substationId}
+    </select>
+
+    <select id="selectBySubstationId" parameterType="String" resultType="String">
+        SELECT PHONE FROM equipment WHERE SUBSTATION_ID = #{substationId}
+    </select>
+
+
+    <select id="selectDeviceNumberByPhone" parameterType="String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM equipment WHERE PHONE = #{phone}
+    </select>
+
+    <select id="selectByDeviceNumberEqui" parameterType="String" resultType="String">
+         SELECT
+         NUMBER_DEVICES
+         FROM equipment WHERE DEVICE_NUMBER = #{deviceNumber}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+          SELECT <include refid="Base_Column_List"/> FROM equipment
+    </select>
+    <select id="findByDeviceNumberEqui" resultMap="BaseResultMap" parameterType="String">
+          SELECT <include refid="Base_Column_List"/> FROM equipment WHERE DEVICE_NUMBER = #{deviceNumber}
+    </select>
+    <select id="selectByEqui" resultMap="BaseResultMap" parameterType="String">
+          SELECT <include refid="Base_Column_List"/> FROM equipment WHERE SUBSTATION_ID = #{substationId}
+    </select>
+
+    <select id="selectByUserType" parameterType="map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM equipment limit #{start},#{pageSize}
+</select>
+
+    <select id="selectByUserTypeCount" resultType="int">
+        SELECT COUNT(1) FROM equipment
+    </select>
+
+    <update id="ImportByEqui" parameterType="java.util.List">
+        UPDATE equipment
+        SET
+        HEADOFEQUIP_MENT=
+        <foreach collection="list" item="equipmentList" index="index" separator=" " open="case DEVICESBID" close="end">
+            when #{equipmentList.deviceSbId,jdbcType=VARCHAR} then #{equipmentList.headOfEquipment,jdbcType=VARCHAR}
+        </foreach>
+        ,PHONE=
+        <foreach collection="list" item="equipmentList" index="index" separator=" " open="case DEVICESBID" close="end">
+            when #{equipmentList.deviceSbId,jdbcType=VARCHAR} then #{equipmentList.phone,jdbcType=VARCHAR}
+        </foreach>
+        ,EQUIPMENTXI=
+        <foreach collection="list" item="equipmentList" index="index" separator=" " open="case DEVICESBID" close="end">
+            when #{equipmentList.deviceSbId,jdbcType=VARCHAR} then #{equipmentList.equipmentxi,jdbcType=VARCHAR}
+        </foreach>
+        ,SUBSTATION_ID=
+        <foreach collection="list" item="equipmentList" index="index" separator=" " open="case DEVICESBID" close="end">
+            when #{equipmentList.deviceSbId,jdbcType=VARCHAR} then #{equipmentList.substationId,jdbcType=VARCHAR}
+        </foreach>
+        where DEVICESBID in
+        <foreach collection="list" index="index" item="equipmentList" separator="," open="(" close=")">
+            #{equipmentList.deviceSbId,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <update id="EquiQy" parameterType="com.example.skkj.entity.Equipment">
+        UPDATE  equipment
+        <set>
+            <if test="headOfEquipment != null and headOfEquipment != ''" >
+                HEADOFEQUIP_MENT = #{headOfEquipment,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''" >
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="equipmentxi != null and equipmentxi != ''" >
+                EQUIPMENTXI =  #{equipmentxi,jdbcType=VARCHAR},
+            </if>
+            <if test="substationId != null and substationId != ''" >
+                SUBSTATION_ID =  #{substationId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceName != null and deviceName != ''" >
+                DEVICE_NAME =  #{deviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="eptId != null and eptId != ''" >
+                EPT_ID =  #{eptId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null and deviceType != ''" >
+                DEVICE_TYPE =  #{deviceType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE DEVICESBID =  #{deviceSbId,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="selectByDevicesbId" resultType="String" parameterType="String">
+        SELECT   DEVICE_NUMBER as deviceNumber  FROM equipment WHERE DEVICESBID = #{deviceSbId}
+    </select>
+
+</mapper>

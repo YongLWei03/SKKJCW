@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.NotificationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Notification" >
+    <id column="NOT_ID" property="notId"/>
+    <result column="NOTINF_NAME" property="notinfName" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NOT_ID,NOTINF_NAME,TIME
+  </sql>
+  <select id="select" resultMap="BaseResultMap">
+        select
+       <include refid="Base_Column_List"/>
+        from notification
+  </select>
+
+</mapper>

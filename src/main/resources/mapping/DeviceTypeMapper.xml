@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.DeviceTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.DeviceType" >
+    <id column="DEV_ID" property="devId"/>
+    <result column="ROOT_DEVICE_TYPE" property="rootDeviceType" jdbcType="VARCHAR" />
+    <result column="SENCOND_DEVICE_TYPE" property="sencondDeviceType" jdbcType="VARCHAR" />
+    <result column="DEVICE_NUM" property="deviceNum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DEV_ID,ROOT_DEVICE_TYPE,SENCOND_DEVICE_TYPE,DEVICE_NUM
+  </sql>
+
+    <select id="selectByDeviceType"  resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List"/>
+         FROM devicetype
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.UserRegionMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.UserRegion" >
+    <id column="USERREGION_ID" property="UserRegionId"/>
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_ID" property="substationId" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_NAME" property="substationName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERREGION_ID,USER_ID,SUBSTATION_ID
+  </sql>
+  
+  <!-- 批量插入生成的兑换码 -->
+	    <insert id ="insert" parameterType="java.util.List" >
+	             insert into userregion
+	           	 (USER_ID, SUBSTATION_ID)
+	             values
+	            <foreach collection ="list" item="userRegions" index= "index" separator =",">
+	            (
+	                 #{userRegions.userId},
+	                 #{userRegions.substationId}
+                 )
+	            </foreach >
+	    </insert >
+  
+  
+  <select id="selectByUserId" resultType="String" parameterType="String">
+    select 
+    	SUBSTATION_ID as substationId
+    from userregion
+    where  
+      USER_ID=#{userId}
+  </select>
+  
+  <select id="findUserRegion" resultMap="BaseResultMap">
+    select 
+    	ug.USER_ID as userId,sb.SUBSTATION_NAME as substationName
+    from userregion ug join substation sb
+     on ug.SUBSTATION_ID = sb.SUBSTATION_ID
+  </select>
+  
+  <delete id="deletByUserId" parameterType="String">
+  		delete from userregion where USER_ID=#{userId}
+  </delete>
+  
+  <delete id="deletBysubsId" parameterType="String">
+  		delete from userregion where SUBSTATION_ID=#{substationId}
+  </delete>
+    <select id="selectBysubsId" resultType="string" parameterType="String">
+  		select USER_ID as userId from userregion where SUBSTATION_ID = #{substationId}
+  </select>
+</mapper>

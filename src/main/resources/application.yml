@@ -1,0 +1,53 @@
+spring:
+  # 数据库配置
+  datasource:
+#    url: jdbc:mysql://183.61.5.4:3306/scskkj?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://183.61.5.4:3306/skkjsc?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: skkjadmin
+    driver-class-name: org.gjt.mm.mysql.Driver
+
+  druid:
+        # 初始化时建立连接数
+        initial-size: 1
+        # 最大连接数
+        max-active: 100
+        # 最小连接数
+        min-idle: 1
+        # 获取连接的等待超时时间（毫秒），缺省使用公平锁，影响并发效率
+        max-wait: 30000
+        # 是否缓存 PreparedStatement，即 PSCache，对支持游标的数据库性能提升巨大
+        pool-prepared-statements: true
+        # 如果启用 PSCache 则此项必须设置大于 0
+        max-open-prepared-statements: 100
+        # 检测数据库连接是否有效的 sql
+        validation-query: SELECT 1
+        # 检测数据库连接执行 SQL 的超时时间（毫秒）
+        validation-query-timeout: 30000
+        # 申请连接时执行 validation-query 检测连接是否有效，影响性能
+        test-on-borrow: false
+        # 归还连接时执行 validation-query 检测连接是否有效，影响性能
+        test-on-return: false
+        # 申请连接时如果空闲时间大于 time-between-eviction-runs-millis 则执行 validation-query 检测连接是否有效，不影响性能
+        test-while-idle: true
+        # 间隔多长时间检测一次需要关闭的空闲连接（毫秒）
+        time-between-eviction-runs-millis: 60000
+        # 一个连接在池中最小生存时间（毫秒）
+        min-evictable-idle-time-millis: 300000
+        # 监控统计用的过滤器
+        filters: stat
+  servlet:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 30Mb
+
+mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+
+
+mybatis:
+    type-aliases-package: com.example.skkj.entity
+    mapper-locations: classpath:mapping/*.xml
+#    config-location: classpath:mybatis-config.xml

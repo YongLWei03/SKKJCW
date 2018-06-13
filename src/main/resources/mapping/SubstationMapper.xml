@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.SubstationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Substation" >
+    <id column="SUBSTATION_ID" property="substationId"/>
+    <result column="SUBSTATION_NAME" property="substationName" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_AREA" property="substationArea" jdbcType="VARCHAR" />
+    <result column="INFORMATION" property="information" jdbcType="VARCHAR"/>
+    <result column="SUBSTATION_IMAGE" property="substationImage" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+    <result column="ACCURACY" property="accuracy" jdbcType="VARCHAR" />
+    <result column="LATITUDE" property="latitude" jdbcType="VARCHAR" />
+    <result column="SUBSTATIONPY" property="substationPY" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SUBSTATION_ID,SUBSTATION_NAME,SUBSTATION_AREA,INFORMATION,SUBSTATION_IMAGE,PROVINCE_ID,CITY_ID,AREA_ID,ACCURACY,LATITUDE,SUBSTATIONPY
+  </sql>
+  
+  <select id="selectSubstation" resultMap="BaseResultMap" parameterType="map">
+  		select 
+    		<include refid="Base_Column_List" />
+        from substation
+        GROUP BY SUBSTATION_ID DESC limit #{start},#{pageSize}
+  </select>
+  
+  <select id="selectBySubstationId" resultMap="BaseResultMap" parameterType="String">
+  		select 
+    		<include refid="Base_Column_List" />
+        from substation where SUBSTATION_ID = #{substationId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectSubstationCount" resultType="int" parameterType="map">
+  		select 
+    		count(1)
+        from substation
+  </select>
+  
+  <select id="findByType" resultMap="BaseResultMap" parameterType="String">
+  		select 
+    		sb.SUBSTATION_ID as substationId,sb.SUBSTATION_NAME as substationName,sb.SUBSTATION_AREA as substationArea,sb.INFORMATION as information,
+    		sb.SUBSTATION_IMAGE as substationImage,sb.ACCURACY as accuracy,sb.LATITUDE as latitude
+        from substation sb join userregion ug on sb.SUBSTATION_ID = ug.SUBSTATION_ID
+        where  ug.USER_ID = #{userId}
+  </select>
+  
+  <select id="findByTypeCj" resultMap="BaseResultMap">
+  		select 
+    		<include refid="Base_Column_List" />
+        from substation
+  </select>
+  
+  <select id="selectSubstationByType" resultMap="BaseResultMap" parameterType="map">
+  		select 
+    		sb.SUBSTATION_ID as substationId,sb.SUBSTATION_NAME as substationName,sb.SUBSTATION_AREA as substationArea,sb.INFORMATION as information,
+    		sb.SUBSTATION_IMAGE as substationImage,sb.ACCURACY as accuracy,sb.LATITUDE as latitude
+        from substation sb join userregion ug on sb.SUBSTATION_ID = ug.SUBSTATION_ID
+        where  ug.USER_ID = #{userId}
+        GROUP BY sb.SUBSTATION_ID DESC limit #{start},#{pageSize}
+  </select>
+  
+  <select id="selectSubstationByTypeCount" resultType="int" parameterType="map">
+  		select 
+    		count(1)
+        from substation sb join userregion ug on sb.SUBSTATION_ID = ug.SUBSTATION_ID
+        where  ug.USER_ID = #{userId}
+  </select>
+  
+  <select id="selectSubstationByDq" resultMap="BaseResultMap" parameterType="map">
+     select 
+    	<include refid="Base_Column_List" />
+     from substation
+     <where>
+     		<if test="provinceId != null and provinceId !=''">
+     			PROVINCE_ID = #{provinceId}
+     		</if>
+     		<if test="cityId != null and cityId != ''">
+     			and CITY_ID = #{cityId,jdbcType=VARCHAR}
+     		</if>
+     		<if test="areaId != null and areaId != ''">
+     			and AREA_ID = #{areaId,jdbcType=VARCHAR}
+     		</if>
+     </where>
+  </select>
+  
+  <select id="selectByqx" resultMap="BaseResultMap" parameterType="map">
+     select 
+    	st.SUBSTATION_ID as substationId ,st.SUBSTATION_NAME as substationName
+     from substation st join userregion ug on st.SUBSTATION_ID = ug.SUBSTATION_ID
+     where ug.USER_ID = #{userId,jdbcType=VARCHAR}
+     	<if test="provinceId != null and provinceId !=''">
+     		and PROVINCE_ID = #{provinceId}
+     	</if>
+     	<if test="cityId != null and cityId != ''">
+     		and CITY_ID = #{cityId,jdbcType=VARCHAR}
+     	</if>
+     	<if test="areaId != null and areaId != ''">
+     		and AREA_ID = #{areaId,jdbcType=VARCHAR}
+     	</if>
+  </select>
+  
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.Substation">
+  insert into substation
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="substationName != null and substationName != ''" >
+        SUBSTATION_NAME,
+      </if>
+      <if test="substationArea != null and substationArea != ''" >
+        SUBSTATION_AREA,
+      </if>
+      <if test="information != null and information != ''" >
+        INFORMATION,
+      </if>
+      <if test="substationImage != null and substationImage != ''" >
+        SUBSTATION_IMAGE,
+      </if>
+      <if test="accuracy != null and accuracy != ''" >
+        ACCURACY,
+      </if>
+      <if test="latitude != null and latitude != ''" >
+        LATITUDE,
+      </if>
+      <if test="provinceId != null and provinceId != ''" >
+        PROVINCE_ID,
+      </if>
+      <if test="cityId != null and cityId != ''" >
+        CITY_ID,
+      </if>
+      <if test="areaId != null and areaId != ''" >
+        AREA_ID,
+      </if>
+         <if test="substationPY != null and substationPY != ''" >
+             SUBSTATIONPY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     <if test="substationName != null and substationName != ''" >
+        #{substationName,jdbcType=VARCHAR},
+      </if>
+      <if test="substationArea != null and substationArea != ''" >
+        #{substationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="information != null and information != ''" >
+       #{information,jdbcType=VARCHAR},
+      </if>
+      <if test="substationImage != null and substationImage != ''" >
+        #{substationImage,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracy != null and accuracy != ''" >
+        #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null and latitude != ''" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null and provinceId != ''" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null and cityId != ''" >
+       #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null and areaId != ''" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+        <if test="substationPY != null and substationPY != ''" >
+        #{substationPY,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateBySubstationId" parameterType="com.example.skkj.entity.Substation">
+  		update  substation
+  	<set>
+	  <if test="substationName != null and substationName != ''" >
+       	SUBSTATION_NAME = #{substationName,jdbcType=VARCHAR},
+      </if>
+      <if test="substationArea != null and substationArea != ''" >
+      	 SUBSTATION_AREA = #{substationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="information != null and information != ''" >
+       	INFORMATION = #{information,jdbcType=VARCHAR},
+      </if>
+      <if test="substationImage != null and substationImage != ''" >
+         SUBSTATION_IMAGE = #{substationImage,jdbcType=VARCHAR},
+      </if>
+       <if test="accuracy != null and accuracy != ''" >
+        ACCURACY= #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null and latitude != ''" >
+        LATITUDE= #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null and provinceId != ''" >
+        PROVINCE_ID= #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null and cityId != ''" >
+        CITY_ID= #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null and areaId != ''" >
+        AREA_ID= #{areaId,jdbcType=VARCHAR},
+      </if>
+        <if test="substationPY != null and substationPY != ''" >
+            SUBSTATIONPY= #{substationPY,jdbcType=VARCHAR},
+      </if>
+  	</set>
+  		where SUBSTATION_ID = #{substationId}
+  </update>
+  
+  <delete id="deleteSubstation" parameterType="String">
+  		delete from substation where SUBSTATION_ID = #{substationId}
+  </delete>
+  
+   <select id="selectBySubstationPY" parameterType="String" resultType="String">
+  		SELECT SUBSTATION_ID FROM substation where SUBSTATIONPY = #{substationPY}
+   </select>
+    <select id="selectBySubstationName" parameterType="String" resultType="String">
+        SELECT SUBSTATION_ID FROM substation where SUBSTATION_NAME = #{substationName}
+    </select>
+
+    <select id="findByArer" parameterType="String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM  substation WHERE SUBSTATION_AREA like CONCAT('%', #{substationArea}, '%')
+    </select>
+
+    <select id="appSelectSubstationByType" parameterType="String" resultMap="BaseResultMap">
+          select
+    		sb.SUBSTATION_ID as substationId,sb.SUBSTATION_NAME as substationName,sb.SUBSTATION_AREA as substationArea,sb.INFORMATION as information,
+    		sb.SUBSTATION_IMAGE as substationImage,sb.ACCURACY as accuracy,sb.LATITUDE as latitude
+        from substation sb join userregion ug on sb.SUBSTATION_ID = ug.SUBSTATION_ID
+        where  ug.USER_ID = #{userId}
+        GROUP BY sb.SUBSTATION_ID DESC limit #{start},#{pageSize}
+    </select>
+
+    <select id="selectByAll" resultMap="BaseResultMap" >
+         select
+    		SUBSTATION_ID as substationId,SUBSTATION_NAME as substationName
+        from substation
+    </select>
+
+</mapper>

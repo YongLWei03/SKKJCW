@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.AlarmHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.AlarmHistory" >
+    <id column="ALAR_ID" property="alarId"/>
+    <result column="INA" property="inA" jdbcType="VARCHAR" />
+    <result column="INB" property="inB" jdbcType="VARCHAR" />
+    <result column="INC" property="inC" jdbcType="VARCHAR" />
+    <result column="OUTA" property="outA" jdbcType="VARCHAR" />
+    <result column="OUTB" property="outB" jdbcType="VARCHAR" />
+    <result column="OUTC" property="outC" jdbcType="VARCHAR" />
+    <result column="CONTACTA" property="contactA" jdbcType="VARCHAR" />
+    <result column="CONTACTB" property="contactB" jdbcType="VARCHAR" />
+    <result column="CONTACTC" property="contactC" jdbcType="VARCHAR" />
+    <result column="CONTACTD" property="contactD" jdbcType="VARCHAR" />
+    <result column="CONTACTE" property="contactE" jdbcType="VARCHAR" />
+    <result column="CONTACTF" property="contactF" jdbcType="VARCHAR" />
+    <result column="DEVICENUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ALAR_ID,INA,INB,INC,OUTA,OUTB,OUTC,CONTACTA,CONTACTB,CONTACTC,CONTACTD,CONTACTE,CONTACTF,DEVICENUMBER,TYPE,TIME
+  </sql>
+
+  <select id="selectAlarmHistory" resultMap="BaseResultMap" parameterType="map">
+  		 select
+  		 <include refid="Base_Column_List"/>
+	    from alarmhistory WHERE DEVICENUMBER = #{deviceNumber} AND TIME = #{time}
+	     limit #{start},#{pageSize}
+  </select>
+
+  <select id="selectAlarmHistoryCount" resultType="int" parameterType="map">
+  		 select 
+	    	COUNT(1)
+	    from  alarmhistory WHERE DEVICENUMBER = #{deviceNumber} AND TIME = #{time}
+  </select>
+    <insert id="insert" parameterType="com.example.skkj.entity.AlarmHistory">
+        insert into alarmhistory
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="inA != null and inA != ''" >
+                INA,
+            </if>
+            <if test="inB != null and inB != ''" >
+                INB,
+            </if>
+            <if test="inC != null and inC != ''" >
+                INC,
+            </if>
+            <if test="outA != null and outA != ''" >
+                OUTA,
+            </if>
+            <if test="outB != null and outB != ''" >
+                OUTB,
+            </if>
+            <if test="outC != null and outC != ''" >
+                OUTC,
+            </if>
+            <if test="contactA != null and contactA != ''" >
+                CONTACTA,
+            </if>
+            <if test="contactB != null and contactB != ''" >
+                CONTACTB,
+            </if>
+            <if test="contactC != null and contactC != ''" >
+                CONTACTC,
+            </if>
+            <if test="contactD != null and contactD != ''" >
+                CONTACTD,
+            </if>
+            <if test="contactE != null and contactE != ''" >
+                CONTACTE,
+            </if>
+            <if test="contactF != null and contactF != ''" >
+                CONTACTF,
+            </if>
+            <if test="deviceNumber != null and deviceNumber != ''" >
+                DEVICENUMBER,
+            </if>
+            <if test="type != null and type != ''" >
+                TYPE,
+            </if>
+            <if test="time != null and time != ''" >
+                TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="inA != null and inA != ''" >
+                #{inA,jdbcType=VARCHAR},
+            </if>
+            <if test="inB != null and inB != ''" >
+                #{inB,jdbcType=VARCHAR},
+            </if>
+            <if test="inC != null and inC != ''" >
+                #{inC,jdbcType=VARCHAR},
+            </if>
+            <if test="outA != null and outA != ''" >
+                #{outA,jdbcType=VARCHAR},
+            </if>
+            <if test="outB != null and outB != ''" >
+                #{outB,jdbcType=VARCHAR},
+            </if>
+            <if test="outC != null and outC != ''" >
+                #{outC,jdbcType=VARCHAR},
+            </if>
+            <if test="contactA != null and contactA != ''" >
+                #{contactA,jdbcType=VARCHAR},
+            </if>
+            <if test="contactB != null and contactB != ''" >
+                #{contactB,jdbcType=VARCHAR},
+            </if>
+            <if test="contactC != null and contactC != ''" >
+                #{contactC,jdbcType=VARCHAR},
+            </if>
+            <if test="contactD != null and contactD != ''" >
+                #{contactD,jdbcType=VARCHAR},
+            </if>
+            <if test="contactE != null and contactE != ''" >
+                #{contactE,jdbcType=VARCHAR},
+            </if>
+            <if test="contactF != null and contactF != ''" >
+                #{contactF,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceNumber != null and deviceNumber != ''" >
+                #{deviceNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null and time != ''" >
+                #{time,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <delete id="deleteByTimeDNum" parameterType="map">
+        DELETE FROM  alarmhistory WHERE DEVICENUMBER = #{deviceNumber} AND TIME = #{time}
+    </delete>
+
+    <delete id="deleteByAlarmHistory" parameterType="list">
+        DELETE FROM alarmhistory WHERE DEVICENUMBER in
+        <foreach item="alarmInformation" collection="list" open="(" separator="," close=")">
+            #{alarmInformation.deviceNumber}
+        </foreach>
+         AND TIME in
+        <foreach item="alarmInformation" collection="list" open="(" separator="," close=")">
+            #{alarmInformation.day}
+        </foreach>
+    </delete>
+
+    <delete id="deletByDevierNumber" parameterType="String">
+        DELETE FROM  alarmhistory WHERE  DEVICENUMBER = #{deviceNumber}
+    </delete>
+</mapper>

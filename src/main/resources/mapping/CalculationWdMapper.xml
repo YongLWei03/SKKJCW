@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.CalculationWdMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.CalculationWd" >
+    <id column="CAID" property="caId"/>
+	  <result column="INA" property="inA" jdbcType="VARCHAR" />
+	  <result column="INB" property="inB" jdbcType="VARCHAR" />
+	  <result column="INC" property="inC" jdbcType="VARCHAR" />
+	  <result column="OUTA" property="outA" jdbcType="VARCHAR" />
+	  <result column="OUTB" property="outB" jdbcType="VARCHAR" />
+	  <result column="OUTC" property="outC" jdbcType="VARCHAR" />
+	  <result column="INACS" property="inAcs" jdbcType="VARCHAR" />
+	  <result column="INBCS" property="inBcs" jdbcType="VARCHAR" />
+	  <result column="INCCS" property="inCcs" jdbcType="VARCHAR" />
+	  <result column="OUTACS" property="outAcs" jdbcType="VARCHAR" />
+	  <result column="OUTBCS" property="outBcs" jdbcType="VARCHAR" />
+	  <result column="OUTCCS" property="outCcs" jdbcType="VARCHAR" />
+    <result column="DEVICENUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    CAID,INA,INB,INC,OUTA,OUTB,OUTC,DEVICENUMBER,INACS,INBCS,INCCS,OUTACS,OUTBCS,OUTCCS
+  </sql>
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.CalculationWd">
+  insert into cvalculationwd
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+
+		 <if test="inA != null and inA != ''" >
+			 INA,
+      </if>
+		 <if test="inB != null and inB != ''" >
+			 INB,
+      </if>
+		 <if test="inC != null and inC != ''" >
+			 INC,
+      </if>
+		 <if test="outA != null and outA != ''" >
+			 OUTA,
+      </if>
+		 <if test="outB != null and outB != ''" >
+			 OUTB,
+      </if>
+		 <if test="outC != null and outC != ''" >
+			 OUTC,
+      </if>
+		 <if test="inAcs != null and inAcs != ''" >
+			 INACS,
+      </if>
+		 <if test="inBcs != null and inBcs != ''" >
+			 INBCS,
+      </if>
+		 <if test="inCcs != null and inCcs != ''" >
+			 INCCS,
+      </if>
+		 <if test="outAcs != null and outAcs != ''" >
+			 OUTACS,
+      </if>
+		 <if test="outBcs != null and outBcs != ''" >
+			 OUTBCS,
+      </if>
+		 <if test="outCcs != null and outCcs != ''" >
+			 OUTCCS,
+      </if>
+
+		 <if test="deviceNumber != null and deviceNumber != ''" >
+			 DEVICENUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+		 <if test="inA != null and inA != ''" >
+				 #{inA,jdbcType=VARCHAR},
+		 </if>
+		<if test="inB != null and inB != ''" >
+				#{inB,jdbcType=VARCHAR},
+		</if>
+		<if test="inC != null and inC != ''" >
+				 #{inC,jdbcType=VARCHAR},
+		</if>
+		<if test="outA != null and outA != ''" >
+				 #{outA,jdbcType=VARCHAR},
+		</if>
+		<if test="outB != null and outB != ''" >
+				#{outB,jdbcType=VARCHAR},
+		</if>
+		<if test="outC != null and outC != ''" >
+				#{outC,jdbcType=VARCHAR},
+		</if>
+		<if test="inAcs != null and inAcs != ''" >
+				 #{inAcs,jdbcType=VARCHAR},
+		 </if>
+		<if test="inBcs != null and inBcs != ''" >
+				#{inB,jdbcType=VARCHAR},
+		</if>
+		<if test="inCcs != null and inCcs != ''" >
+				 #{inC,jdbcType=VARCHAR},
+		</if>
+		<if test="outAcs != null and outAcs != ''" >
+				 #{outA,jdbcType=VARCHAR},
+		</if>
+		<if test="outBcs != null and outBcs != ''" >
+				#{outB,jdbcType=VARCHAR},
+		</if>
+		<if test="outCcs != null and outCcs != ''" >
+				#{outC,jdbcType=VARCHAR},
+		</if>
+		<if test="deviceNumber != null and deviceNumber != ''" >
+      	 #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+	<update id="update" parameterType="com.example.skkj.entity.CalculationWd">
+		UPDATE cvalculationwd
+		<set>
+			<if test="inA != null and inA != ''" >
+				INA = #{inA,jdbcType=VARCHAR},
+			</if>
+			<if test="inB != null and inB != ''" >
+				INB = #{inB,jdbcType=VARCHAR},
+			</if>
+			<if test="inC != null and inC != ''" >
+				INC = #{inC,jdbcType=VARCHAR},
+			</if>
+			<if test="outA != null and outA != ''" >
+				OUTA = #{outA,jdbcType=VARCHAR},
+			</if>
+			<if test="outB != null and outB != ''" >
+				OUTB = #{outB,jdbcType=VARCHAR},
+			</if>
+			<if test="outC != null and outC != ''" >
+				OUTC = #{outC,jdbcType=VARCHAR},
+			</if>
+			<if test="inAcs != null and inAcs != ''" >
+				INACS = #{inAcs,jdbcType=VARCHAR},
+			</if>
+			<if test="inBcs != null and inBcs != ''" >
+				INBCS= #{inBcs,jdbcType=VARCHAR},
+			</if>
+			<if test="inCcs != null and inCcs != ''" >
+				INCCS = #{inCcs,jdbcType=VARCHAR},
+			</if>
+			<if test="outAcs != null and outAcs != ''" >
+				OUTACS = #{outAcs,jdbcType=VARCHAR},
+			</if>
+			<if test="outBcs != null and outBcs != ''" >
+				OUTBCS = #{outBcs,jdbcType=VARCHAR},
+			</if>
+			<if test="outCcs != null and outCcs != ''" >
+				OUTCCS = #{outCcs,jdbcType=VARCHAR},
+			</if>
+		</set>
+
+		WHERE DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</update>
+
+	<select id="select" resultType="com.example.skkj.entity.CalculationWd" parameterType="String">
+		SELECT <include refid="Base_Column_List"/> FROM cvalculationwd WHERE DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByDeviceNumber" parameterType="String">
+		DELETE FROM cvalculationwd WHERE DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insertAll" parameterType="java.util.List">
+		insert into cvalculationwd
+		(INA,INB,INC,OUTA,OUTB,OUTC,DEVICENUMBER,INACS,INBCS,INCCS,OUTACS,OUTBCS,OUTCCS)
+		values
+		<foreach collection ="list" item="calculationWdList" index= "index" separator =",">
+			(
+			#{calculationWdList.inA},
+			#{calculationWdList.inB},
+			#{calculationWdList.inC},
+			#{calculationWdList.outA},
+			#{calculationWdList.outB},
+			#{calculationWdList.outC},
+			#{calculationWdList.deviceNumber},
+			#{calculationWdList.inAcs},
+			#{calculationWdList.inBcs},
+			#{calculationWdList.inCcs},
+			#{calculationWdList.outAcs},
+			#{calculationWdList.outBcs},
+			#{calculationWdList.outCcs}
+			)
+		</foreach>
+	</insert>
+</mapper>

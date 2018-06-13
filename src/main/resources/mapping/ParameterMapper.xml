@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.ParameterMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.Parameter" >
+    <id column="PARID" property="parId"/>
+    <result column="SENSOR_ADDR" property="sensorAddr" jdbcType="VARCHAR" />
+    <result column="SENSOR_NUM" property="sensorNum" jdbcType="VARCHAR" />
+    <result column="CAPTURE_PERIOD" property="capturePeriod" jdbcType="VARCHAR" />
+    <result column="DEVICE_NUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="UNDER_TEMP" property="underTemp" jdbcType="VARCHAR" />
+    <result column="OVER_TEMP" property="overTemp" jdbcType="VARCHAR" />
+    <result column="OVER_SIGNAL" property="overSignal" jdbcType="VARCHAR" />
+    <result column="UNDER_SIGNAL" property="underSignal" jdbcType="VARCHAR" />
+    <result column="REPORT_PERIOD" property="reportPeriod" jdbcType="VARCHAR" />
+    <result column="CAPTURE_MODE" property="captureMode" jdbcType="VARCHAR" />
+    <result column="ISAUTO_MODE" property="isAutoMode" jdbcType="VARCHAR" />
+    <result column="ZONEIN_TATOL" property="zoneInTatol" jdbcType="VARCHAR" />
+    <result column="ZONEIN_NUM" property="zoneInNum" jdbcType="VARCHAR" />
+    <result column="SOUTH_IP" property="southIP" jdbcType="VARCHAR" />
+    <result column="SOUTH_PORT" property="southPort" jdbcType="VARCHAR" />
+    <result column="SWID" property="swId" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="MODIFYDEVICETYPE" property="modifyDeviceType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PARID,SENSOR_ADDR,SENSOR_NUM,CAPTURE_PERIOD,DEVICE_NUMBER,UNDER_TEMP,OVER_TEMP,OVER_SIGNAL,UNDER_SIGNAL,REPORT_PERIOD,CAPTURE_MODE,ISAUTO_MODE,
+    ZONEIN_TATOL,ZONEIN_NUM,SOUTH_IP,SOUTH_PORT,SWID,TIME,MODIFYDEVICETYPE
+  </sql>
+
+  <insert id="insert" parameterType="com.example.skkj.entity.Parameter">
+    insert into parameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sensorAddr != null and sensorAddr != ''" >
+        SENSOR_ADDR,
+      </if>
+      <if test="sensorNum != null and sensorNum != ''" >
+        SENSOR_NUM,
+      </if>
+      <if test="capturePeriod != null and capturePeriod != ''" >
+        CAPTURE_PERIOD,
+      </if>
+      <if test="deviceNumber != null and deviceNumber != ''" >
+        DEVICE_NUMBER,
+      </if>
+      <if test="underTemp != null and underTemp != ''" >
+        UNDER_TEMP,
+      </if>
+      <if test="overTemp != null and overTemp != ''" >
+        OVER_TEMP,
+      </if>
+      <if test="overSignal != null and overSignal != ''" >
+        OVER_SIGNAL,
+      </if>
+      <if test="underSignal != null and underSignal != ''" >
+        UNDER_SIGNAL,
+      </if>
+      <if test="reportPeriod != null and reportPeriod != ''" >
+        REPORT_PERIOD,
+      </if>
+      <if test="captureMode != null and captureMode != ''" >
+        CAPTURE_MODE,
+      </if>
+      <if test="isAutoMode != null and isAutoMode != ''" >
+        ISAUTO_MODE,
+      </if>
+      <if test="zoneInTatol != null and zoneInTatol != ''" >
+        ZONEIN_TATOL,
+      </if>
+      <if test="zoneInNum != null and zoneInNum != ''" >
+        ZONEIN_NUM,
+      </if>
+      <if test="southIP != null and southIP != ''" >
+        SOUTH_IP,
+      </if>
+      <if test="southPort != null and southPort != ''" >
+        SOUTH_PORT,
+      </if>
+      <if test="swId != null and swId != ''" >
+        SWID,
+      </if>
+      <if test="time != null and time != ''" >
+        TIME,
+      </if>
+      <if test="modifyDeviceType != null and modifyDeviceType != ''" >
+        MODIFYDEVICETYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sensorAddr != null and sensorAddr != ''" >
+        #{sensorAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorNum != null and sensorNum != ''" >
+        #{sensorNum,jdbcType=VARCHAR},
+      </if>
+      <if test="capturePeriod != null and capturePeriod != ''" >
+        #{capturePeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNumber != null and deviceNumber != ''" >
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="underTemp != null and underTemp != ''" >
+        #{underTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="overTemp != null and overTemp != ''" >
+        #{overTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="overSignal != null and overSignal != ''" >
+        #{overSignal,jdbcType=VARCHAR},
+      </if>
+      <if test="underSignal != null and underSignal != ''" >
+        #{underSignal,jdbcType=VARCHAR},
+      </if>
+      <if test="reportPeriod != null and reportPeriod != ''" >
+        #{reportPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="captureMode != null and captureMode != ''" >
+        #{captureMode,jdbcType=VARCHAR},
+      </if>
+      <if test="isAutoMode != null and isAutoMode != ''" >
+        #{isAutoMode,jdbcType=VARCHAR},
+      </if>
+      <if test="zoneInTatol != null and zoneInTatol != ''" >
+        #{zoneInTatol,jdbcType=VARCHAR},
+      </if>
+      <if test="zoneInNum != null and zoneInNum != ''" >
+        #{zoneInNum,jdbcType=VARCHAR},
+      </if>
+      <if test="southIP != null and southIP != ''" >
+        #{southIP,jdbcType=VARCHAR},
+      </if>
+      <if test="southPort != null and southPort != ''" >
+        #{southPort,jdbcType=VARCHAR},
+      </if>
+      <if test="swId != null and swId != ''" >
+        #{swId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null and time != ''" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDeviceType != null and modifyDeviceType != ''" >
+        #{modifyDeviceType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+
+  
+  <select id="selectByDeviceNumber" resultMap="BaseResultMap" parameterType="String">
+    select PARID as parId,SENSOR_ADDR as sensorAddr,SENSOR_NUM as sensorNum,
+    CAPTURE_PERIOD as capturePeriod,DEVICE_NUMBER as deviceNumber, UNDER_TEMP as underTemp,
+    OVER_TEMP as overTemp,OVER_SIGNAL as overSignal,UNDER_SIGNAL as underSignal,REPORT_PERIOD as reportPeriod,
+    CAPTURE_MODE as captureMode, ISAUTO_MODE as isAutoMode,ZONEIN_TATOL as zoneInTatol,ZONEIN_NUM as zoneInNum,
+    MODIFYDEVICETYPE as modifyDeviceType,
+    SOUTH_IP as southIP,SOUTH_PORT as southPort,SWID as swId,TIME as time from parameter WHERE TIME = (SELECT MAX(time) FROM parameter WHERE DEVICE_NUMBER = #{deviceNumber})
+  </select>
+
+  <update id="updateByTimeAndDeviceNumber" parameterType="com.example.skkj.entity.Parameter">
+    UPDATE parameter
+      <set>
+        <if test="captureMode != null and captureMode != ''">
+          CAPTURE_MODE=#{captureMode,jdbcType=VARCHAR},
+        </if>
+        <if test="reportPeriod != null and reportPeriod != ''">
+          REPORT_PERIOD=#{reportPeriod,jdbcType=VARCHAR},
+        </if>
+        <if test="capturePeriod != null and capturePeriod != ''">
+          CAPTURE_PERIOD=#{capturePeriod,jdbcType=VARCHAR},
+        </if>
+        <if test="zoneInTatol != null and zoneInTatol != ''">
+          ZONEIN_TATOL=#{zoneInTatol,jdbcType=VARCHAR},
+        </if>
+        <if test="zoneInNum != null and zoneInNum != ''">
+          ZONEIN_NUM=#{zoneInNum,jdbcType=VARCHAR},
+        </if>
+      </set>
+    WHERE TIME = #{time} AND  DEVICE_NUMBER = #{deviceNumber}
+  </update>
+</mapper>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.skkj.mapper.AlarmInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.skkj.entity.AlarmInformation" >
+    <id column="AF_ID" property="afId"/>
+    <result column="EQUIPMENTXI" property="equipmentxi" jdbcType="VARCHAR" />
+    <result column="INFORMATION" property="information" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="DAY" property="day" jdbcType="VARCHAR" />
+    <result column="EQ_ID" property="eqId" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_NAME" property="substationName" jdbcType="VARCHAR" />
+	  <result column="INA" property="inA" jdbcType="VARCHAR" />
+	  <result column="INB" property="inB" jdbcType="VARCHAR" />
+	  <result column="INC" property="inC" jdbcType="VARCHAR" />
+	  <result column="OUTA" property="outA" jdbcType="VARCHAR" />
+	  <result column="OUTB" property="outB" jdbcType="VARCHAR" />
+	  <result column="OUTC" property="outC" jdbcType="VARCHAR" />
+	  <result column="CONTACTA" property="contactA" jdbcType="VARCHAR" />
+	  <result column="CONTACTB" property="contactB" jdbcType="VARCHAR" />
+	  <result column="CONTACTC" property="contactC" jdbcType="VARCHAR" />
+	  <result column="CONTACTD" property="contactD" jdbcType="VARCHAR" />
+	  <result column="CONTACTE" property="contactE" jdbcType="VARCHAR" />
+	  <result column="CONTACTF" property="contactF" jdbcType="VARCHAR" />
+    <result column="SUBSTATION_ID" property="substationId" jdbcType="VARCHAR" />
+    <result column="INFORMATION_TYPE" property="informationType" jdbcType="VARCHAR" />
+    <result column="DEVICENUMBER" property="deviceNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    AF_ID,EQUIPMENTXI,STATE,DAY,EQ_ID,SUBSTATION_NAME,INA,INB,INC,OUTA,OUTB,OUTC,CONTACTA,CONTACTB,CONTACTC,CONTACTD,CONTACTE,CONTACTF,SUBSTATION_ID,TYPE,INFORMATION_TYPE,DEVICENUMBER
+  </sql>
+  
+  <insert id="insert" parameterType="com.example.skkj.entity.AlarmInformation">
+  insert into alarminformation
+  	 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="equipmentxi != null and equipmentxi != ''" >
+        EQUIPMENTXI,
+      </if>
+
+      <if test="state != null and state != ''" >
+        STATE,
+      </if>
+      <if test="day != null and day != ''" >
+        DAY,
+      </if>
+      <if test="eqId != null and eqId != ''" >
+        EQ_ID,
+      </if>
+      <if test="substationName != null and substationName != ''" >
+        SUBSTATION_NAME,
+      </if>
+      <if test="type != null and type != ''" >
+        TYPE,
+      </if>
+      <if test="substationId != null and substationId != ''" >
+        SUBSTATION_ID,
+      </if>
+
+		 <if test="inA != null and inA != ''" >
+			 INA,
+      </if>
+		 <if test="inB != null and inB != ''" >
+			 INB,
+      </if>
+		 <if test="inC != null and inC != ''" >
+			 INC,
+      </if>
+		 <if test="outA != null and outA != ''" >
+			 OUTA,
+      </if>
+		 <if test="outB != null and outB != ''" >
+			 OUTB,
+      </if>
+		 <if test="outC != null and outC != ''" >
+			 OUTC,
+      </if>
+		 <if test="contactA != null and contactA != ''" >
+			 CONTACTA,
+      </if>
+		 <if test="contactB != null and contactB != ''" >
+			 CONTACTB,
+      </if>
+		 <if test="contactC != null and contactC != ''" >
+			 CONTACTC,
+      </if>
+		 <if test="contactD != null and contactD != ''" >
+			 CONTACTD,
+      </if>
+		 <if test="contactE != null and contactE != ''" >
+			 CONTACTE,
+      </if>
+		 <if test="contactF != null and contactF != ''" >
+			 CONTACTF,
+      </if>
+      <if test="informationType != null and informationType != ''" >
+        INFORMATION_TYPE,
+      </if>
+		 <if test="deviceNumber != null and deviceNumber != ''" >
+			 DEVICENUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="equipmentxi != null and equipmentxi != ''" >
+       	 #{equipmentxi,jdbcType=VARCHAR},
+      </if>
+     
+      <if test="state != null and state != ''" >
+       	 #{state,jdbcType=VARCHAR},
+      </if>
+
+      <if test="day != null and day != ''" >
+      	 #{day,jdbcType=VARCHAR},
+      </if>
+      <if test="eqId != null and eqId != ''" >
+      	 #{eqId,jdbcType=VARCHAR},
+      </if>
+      <if test="substationName != null and substationName != ''" >
+      	 #{substationName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null and type != ''" >
+      	 #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="substationId != null and substationId != ''" >
+      	 #{substationId,jdbcType=VARCHAR},
+      </if>
+		 <if test="inA != null and inA != ''" >
+				 #{inA,jdbcType=VARCHAR},
+		 </if>
+		<if test="inB != null and inB != ''" >
+				#{inB,jdbcType=VARCHAR},
+		</if>
+		<if test="inC != null and inC != ''" >
+				 #{inC,jdbcType=VARCHAR},
+		</if>
+		<if test="outA != null and outA != ''" >
+				 #{outA,jdbcType=VARCHAR},
+		</if>
+		<if test="outB != null and outB != ''" >
+				#{outB,jdbcType=VARCHAR},
+		</if>
+		<if test="outC != null and outC != ''" >
+				#{outC,jdbcType=VARCHAR},
+		</if>
+		<if test="contactA != null and contactA != ''" >
+				#{contactA,jdbcType=VARCHAR},
+		</if>
+		<if test="contactB != null and contactB != ''" >
+				#{contactB,jdbcType=VARCHAR},
+		</if>
+		<if test="contactC != null and contactC != ''" >
+				#{contactC,jdbcType=VARCHAR},
+		</if>
+		<if test="contactD != null and contactD != ''" >
+				#{contactD,jdbcType=VARCHAR},
+		</if>
+		<if test="contactE != null and contactE != ''" >
+				#{contactE,jdbcType=VARCHAR},
+		</if>
+		<if test="contactF != null and contactF != ''" >
+				#{contactF,jdbcType=VARCHAR},
+		</if>
+      <if test="informationType != null and informationType != ''" >
+      	 #{informationType,jdbcType=VARCHAR},
+      </if>
+		<if test="deviceNumber != null and deviceNumber != ''" >
+      	 #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectAlarmInformation" resultMap="BaseResultMap" parameterType="map">
+  		 select 
+	    	al.AF_ID,
+	    	al.SUBSTATION_ID,
+			al.SUBSTATION_NAME,
+			al.DEVICENUMBER,
+			al.EQUIPMENTXI,
+			al.INA,
+			al.INB,
+			al.INC,
+			al.OUTA,
+			al.OUTB,
+			al.OUTC,
+			al.contactA,
+			al.contactB,
+			al.contactC,
+			al.contactD,
+			al.contactE,
+			al.contactF,
+			alty.INFORMATION,
+			al.DAY,
+			al.STATE,
+			al.EQ_ID,
+			al.TYPE
+	    from alarminformation as al join informationType as alty
+	    on al.INFORMATION_TYPE = alty.TYPE
+	    <where>
+		     <if test="userId != null and userId != ''">
+			   (al.SUBSTATION_ID in (select ug.SUBSTATION_ID from userregion as ug where ug.USER_ID=#{userId}))
+		     </if>
+		     <if test="type != null and type != ''">
+			    and al.TYPE = #{type,jdbcType=VARCHAR}
+		     </if>
+			<if test="deviceNumber != null and deviceNumber != ''">
+			    and al.DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+		     </if>
+		    <if test="state != null and state != ''">
+				and al.STATE = #{state,jdbcType=VARCHAR}
+		    </if>
+			<if test="keyword != null and keyword != ''">
+				and (al.SUBSTATION_NAME like CONCAT('%', #{keyword}, '%') OR al.EQUIPMENTXI like CONCAT('%', #{keyword}, '%'))
+		    </if>
+		    <if test="startTime != null and startTime != ''">
+		    	<![CDATA[
+                	and al.DAY >= #{startTime,jdbcType=VARCHAR}
+                ]]>
+		    </if>
+		    <if test="endTime != null and endTime != ''">
+		    	<![CDATA[
+                	and al.DAY <= #{endTime,jdbcType=VARCHAR}
+                ]]>
+		    </if>
+	    </where>
+	    GROUP BY al.DAY DESC
+	     limit #{start},#{pageSize}
+  </select>
+  <select id="selectAlarmInformationCount" resultType="int" parameterType="map">
+  		 select 
+	    	COUNT(1)
+	    from alarminformation as al join informationType as alty
+	    on al.INFORMATION_TYPE = alty.TYPE
+	   <where>
+		     <if test="userId != null and userId != ''">
+			   (SUBSTATION_ID in (select ug.SUBSTATION_ID from userregion as ug where ug.USER_ID=#{userId}))
+		     </if>
+		     <if test="type != null and type != ''">
+			    and al.TYPE = #{type,jdbcType=VARCHAR}
+		     </if>
+		  <if test="deviceNumber != null and deviceNumber != ''">
+		   and al.DEVICENUMBER = #{deviceNumber,jdbcType=VARCHAR}
+	  	 </if>
+		    <if test="state != null and state != ''">
+				and al.STATE = #{state,jdbcType=VARCHAR}
+		    </if>
+		   <if test="keyword != null and keyword != ''">
+			   and (al.SUBSTATION_NAME like CONCAT('%', #{keyword}, '%') OR al.EQUIPMENTXI like CONCAT('%', #{keyword}, '%'))
+		   </if>
+		    <if test="startTime != null and startTime != ''">
+		    	<![CDATA[
+                	and al.DAY >= #{startTime,jdbcType=VARCHAR}
+                ]]>
+		    </if>
+		    <if test="endTime != null and endTime != ''">
+		    	<![CDATA[
+                	and al.DAY <= #{endTime,jdbcType=VARCHAR}
+                ]]>
+		    </if>
+	    </where>
+  </select>
+  
+  <delete id="deleteBySubstationId" parameterType="String">
+  	 delete from alarminformation where SUBSTATION_ID = #{substationId,jdbcType=VARCHAR}
+  </delete>
+	<delete id="deleteByEqId" parameterType="String">
+  	 delete from alarminformation where EQ_ID = #{eqId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByAfId" parameterType="String">
+  	 delete from alarminformation where AF_ID = #{afId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByAfIdList" parameterType="list">
+  	 delete from alarminformation where AF_ID in
+  	   <foreach item="afId" collection="list" open="(" separator="," close=")">
+            #{afId}
+       </foreach>
+  </delete>
+  
+  <delete id="deleteByEquipmentxi" parameterType="String">
+  	 delete from alarminformation where EQUIPMENTXI = #{equipmentxi,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="updateByafId" parameterType="com.example.skkj.entity.AlarmInformation">
+     update alarminformation
+     <set>
+         <if test="state != null and state != ''">
+             STATE = #{state,jdbcType=VARCHAR}
+         </if>
+     </set>
+     where AF_ID = #{afId,jdbcType=VARCHAR}
+  </update>
+  
+  	<select id="selectByStateType" parameterType="String" resultMap="BaseResultMap">
+  		 select 
+	    	al.AF_ID,
+			al.SUBSTATION_NAME,
+			al.DEVICENUMBER,
+			al.equipmentxi,
+			al.INA,
+			al.INB,
+			al.INC,
+			al.OUTA,
+			al.OUTB,
+			al.OUTC,
+			al.contactA,
+			al.contactB,
+			al.contactC,
+			al.contactD,
+			al.contactE,
+			al.contactF,
+			alty.INFORMATION,
+			al.DAY,
+			al.EQ_ID
+	    from alarminformation as al join informationType as alty
+	    on al.INFORMATION_TYPE = alty.TYPE where al.STATE = #{state} and al.TYPE =#{type}
+  	</select>
+  	
+  	<select id="selectByAlarmInformation" parameterType="com.example.skkj.entity.AlarmInformation" resultMap="BaseResultMap">
+  		select 
+  		<include refid="Base_Column_List"/>
+  		from alarminformation where STATE = #{state} and TYPE =#{type} and SUBSTATION_ID =#{substationId} 
+  		and INFORMATION_TYPE = #{informationType}  and EQUIPMENTXI = #{equipmentxi}
+  	</select>
+  	
+  	<select id="findType" parameterType="String" resultType="int">
+  		select count(1) from alarminformation where STATE = #{state} and TYPE =#{type} and EQ_ID=#{eqId}
+  	</select>
+  	
+  	<select id="selectByType" parameterType="String" resultType="int">
+  		select count(1) from alarminformation where (SUBSTATION_ID in (select ug.SUBSTATION_ID from userregion as ug where ug.USER_ID=#{userId}))
+  		and STATE = #{state} and TYPE =#{type}
+  	</select>
+  	
+  	<select id="selectByYC" parameterType="String" resultType="int">
+		select count(1) from alarminformation where EQ_ID = #{eqId} and TYPE=#{type} and STATE = #{state}
+	</select>
+	
+	 <select id="selectTypeCountBysubId" resultType="int">
+		   select COUNT(DISTINCT EQ_ID) from alarminformation  
+		   where SUBSTATION_ID = #{substationId} and STATE = 2
+		   <if test="type == 1 or type == '1'">
+			   AND  
+			   (EQ_ID  NOT in (SELECT DISTINCT EQ_ID FROM alarminformation WHERE TYPE = 2 and SUBSTATION_ID = #{substationId} and STATE = 2))
+		   </if>
+		   <if test="type == 2 or type == '2'">
+			   AND  TYPE = #{type}
+		   </if>
+  </select>
+
+	<select id="selectByAfId" parameterType="list" resultMap="BaseResultMap">
+			SELECT <include refid="Base_Column_List"/> FROM alarminformation where AF_ID in
+			<foreach item="afId" collection="list" open="(" separator="," close=")">
+				#{afId}
+			</foreach>
+	</select>
+</mapper>
